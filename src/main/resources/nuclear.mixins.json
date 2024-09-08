@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.shootforever.nuclear.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "nuclear.refmap.json",
+  "mixins": [
+    "MixinLivingEntity",
+    "MixinPlayer"
+  ],
+  "client": [
+    "MixinGameRenderer",
+    "MixinKeyboardHandler",
+    "MixinLocalPlayer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
