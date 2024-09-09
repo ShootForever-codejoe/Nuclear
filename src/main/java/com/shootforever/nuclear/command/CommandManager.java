@@ -1,8 +1,7 @@
 package com.shootforever.nuclear.command;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.command.commands.BindCommand;
-import com.shootforever.nuclear.command.commands.EnabledCommand;
+import com.shootforever.nuclear.command.commands.*;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.util.NotifyUtil;
@@ -20,6 +19,7 @@ public class CommandManager {
 
         registerCommand(new BindCommand());
         registerCommand(new EnabledCommand());
+        registerCommand(new BindsCommand());
     }
 
     private void registerCommand(Command command) {
@@ -39,5 +39,9 @@ public class CommandManager {
             command.execute(Arrays.copyOfRange(args, 1, args.length));
         }
         event.setCancelled(true);
+    }
+
+    public Command getCommand(String name) {
+        return commandMap.get(name.toLowerCase());
     }
 }

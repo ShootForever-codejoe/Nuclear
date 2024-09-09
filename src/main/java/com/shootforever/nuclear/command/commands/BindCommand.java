@@ -13,8 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BindCommand extends Command {
-
-    private Map<String, Integer> keyMap = new HashMap<>();
+    private final Map<String, Integer> keyMap = new HashMap<>();
 
     public BindCommand() {
         super("bind");
@@ -24,7 +23,7 @@ public class BindCommand extends Command {
             if (Modifier.isStatic(field.getModifiers()) && field.getName().startsWith("GLFW_KEY_")) {
                 field.setAccessible(true);
                 try {
-                    keyMap.put(field.getName().substring(9).toLowerCase(), (Integer) field.get(null));
+                    keyMap.put(field.getName().substring(9).toUpperCase(), (Integer) field.get(null));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -47,9 +46,24 @@ public class BindCommand extends Command {
 
         Integer key = keyMap.get(args[1]);
         if (key == null) {
-            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + args[0] + "不存在");
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED  + args[1].toUpperCase() + "键不存在");
+            return;
         }
+
         module.setKey(key);
         NotifyUtil.notifyAsMessage("模块" + args[0] + "成功绑定为" + args[1].toUpperCase() + "键");
+    }
+
+    public String getKeyName(int number) {
+        for (String key : keyMap.keySet()) {
+            if (number == keyMap.get(key)) {
+                return key.toUpperCase();
+            }
+        }
+        return null;
+    }
+
+    public int getKeyNumber(String name) {
+        return keyMap.get(name.toUpperCase());
     }
 }
