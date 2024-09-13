@@ -8,15 +8,12 @@ public abstract class Module {
 
     private final String name;
     private final Category category;
-    private int key;
+    private int key = 0;
     private boolean enabled;
-    private final String description;
 
-    protected Module(String name, Category category, int key, String description) {
+    protected Module(String name, Category category) {
         this.name = name;
         this.category = category;
-        this.key = key;
-        this.description = description;
     }
 
     public String getName() {
@@ -33,10 +30,6 @@ public abstract class Module {
 
     public void setKey(int key) {
         this.key = key;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public boolean isEnabled() {

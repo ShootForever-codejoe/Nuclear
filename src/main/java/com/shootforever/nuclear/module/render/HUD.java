@@ -12,7 +12,7 @@ public class HUD extends Module {
     private int interval = 10;
 
     public HUD() {
-        super("HUD", Category.Render, 0, "界面");
+        super("HUD", Category.Render);
         setEnabled(true);
     }
 

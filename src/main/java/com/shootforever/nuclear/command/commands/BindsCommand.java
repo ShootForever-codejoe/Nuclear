@@ -3,6 +3,7 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.util.KeyboardUtil;
 import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 
@@ -20,7 +21,7 @@ public class BindsCommand extends Command {
 
         for (Module module : Nuclear.getInstance().getModuleManager().getModules()) {
             if (module.getKey() != 0) {
-                NotifyUtil.notifyAsMessage(module.getName() + ": " + ((BindCommand) Nuclear.getInstance().getCommandManager().getCommand("bind")).getKeyName(module.getKey()) + "键");
+                NotifyUtil.notifyAsMessage(module.getName() + ": " + KeyboardUtil.getKeyName(module.getKey()) + "键");
             }
         }
     }
