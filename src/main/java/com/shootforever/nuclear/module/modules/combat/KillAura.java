@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.module.combat;
+package com.shootforever.nuclear.module.modules.combat;
 
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;

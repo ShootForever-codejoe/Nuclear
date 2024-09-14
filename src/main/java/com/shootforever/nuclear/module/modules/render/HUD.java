@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.module.render;
+package com.shootforever.nuclear.module.modules.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.shootforever.nuclear.Nuclear;

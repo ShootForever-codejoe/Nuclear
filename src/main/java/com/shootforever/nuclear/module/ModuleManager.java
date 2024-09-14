@@ -3,11 +3,11 @@ package com.shootforever.nuclear.module;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.KeyPressEvent;
-import com.shootforever.nuclear.module.combat.*;
-import com.shootforever.nuclear.module.render.*;
-import com.shootforever.nuclear.module.world.*;
-import com.shootforever.nuclear.module.movement.*;
-import com.shootforever.nuclear.module.misc.*;
+import com.shootforever.nuclear.module.modules.combat.*;
+import com.shootforever.nuclear.module.modules.misc.*;
+import com.shootforever.nuclear.module.modules.movement.*;
+import com.shootforever.nuclear.module.modules.render.*;
+import com.shootforever.nuclear.module.modules.world.*;
 import com.shootforever.nuclear.util.KeyboardUtil;
 
 import java.util.*;
@@ -21,6 +21,8 @@ public class ModuleManager {
         registerModule(new ClickGUI());
         registerModule(new Scaffold());
         registerModule(new KillAura());
+        registerModule(new MoveFix());
+        registerModule(new IRC());
 
         getModule("ClickGUI").setKey(KeyboardUtil.getKeyNumber("rshift"));
 
