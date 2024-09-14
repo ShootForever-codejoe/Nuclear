@@ -1,20 +1,20 @@
-package com.shootforever.nuclear.value.values;
+package com.shootforever.nuclear.value.singlevalues;
 
-import com.shootforever.nuclear.value.Value;
+import com.shootforever.nuclear.value.SingleValue;
 
-public class IntegerValue extends Value<Integer> {
+public class IntegerSingleValue extends SingleValue<Integer> {
     private final int min;
     private final int max;
     private final String suffix;
 
-    public IntegerValue(String name, int value, int min, int max, String suffix) {
+    public IntegerSingleValue(String name, int value, int min, int max, String suffix) {
         super(name, value);
         this.min = min;
         this.max = max;
         this.suffix = suffix;
     }
 
-    public IntegerValue(String name, int value, int min, int max) {
+    public IntegerSingleValue(String name, int value, int min, int max) {
         super(name, value);
         this.min = min;
         this.max = max;

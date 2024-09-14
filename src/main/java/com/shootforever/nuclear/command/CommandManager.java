@@ -20,6 +20,7 @@ public class CommandManager {
         registerCommand(new BindCommand());
         registerCommand(new EnabledCommand());
         registerCommand(new BindsCommand());
+        registerCommand(new ValueCommand());
     }
 
     private void registerCommand(Command command) {

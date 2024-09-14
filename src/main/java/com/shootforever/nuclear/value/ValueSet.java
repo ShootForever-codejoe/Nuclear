@@ -2,20 +2,17 @@ package com.shootforever.nuclear.value;
 
 import java.util.List;
 
-public class ValueSet extends BaseValue {
-    private final List<BaseValue> values;
+public class ValueSet extends Value {
+    private final List<Value> values;
     private boolean enabled;
 
-    public ValueSet(String name, boolean enabled, List<BaseValue> values) {
+    public ValueSet(String name, boolean enabled, List<Value> values) {
         super(name);
         this.enabled = enabled;
         this.values = List.copyOf(values);
-        for (BaseValue value : values) {
-            value.setValueSet(this);
-        }
     }
 
-    public List<BaseValue> getValues() {
+    public List<Value> getValues() {
         return values;
     }
 

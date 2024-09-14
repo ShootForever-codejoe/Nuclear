@@ -1,20 +1,20 @@
-package com.shootforever.nuclear.value.values;
+package com.shootforever.nuclear.value.singlevalues;
 
-import com.shootforever.nuclear.value.Value;
+import com.shootforever.nuclear.value.SingleValue;
 
-public class FloatValue extends Value<Float> {
+public class FloatSingleValue extends SingleValue<Float> {
     private final float min;
     private final float max;
     private final String suffix;
 
-    public FloatValue(String name, float value, float min, float max, String suffix) {
+    public FloatSingleValue(String name, float value, float min, float max, String suffix) {
         super(name, value);
         this.min = min;
         this.max = max;
         this.suffix = suffix;
     }
 
-    public FloatValue(String name, float value, float min, float max) {
+    public FloatSingleValue(String name, float value, float min, float max) {
         super(name, value);
         this.min = min;
         this.max = max;

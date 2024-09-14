@@ -14,7 +14,7 @@ public class EnabledCommand extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length != 1 && args.length != 2) {
-            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "用法: .enable <module> [<enabled(on/off)>]");
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "用法: .enabled <module> [<enabled(on/off)>]");
             return;
         }
 
