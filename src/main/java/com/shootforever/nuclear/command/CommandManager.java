@@ -7,12 +7,12 @@ import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class CommandManager {
-    private final Map<String, Command> commandMap = new HashMap<>();
+    private final List<Command> commands = new ArrayList<>();
 
     public CommandManager() {
         Nuclear.getInstance().getEventManager().register(this);
@@ -24,7 +24,7 @@ public class CommandManager {
     }
 
     private void registerCommand(Command command) {
-        commandMap.put(command.getName().toLowerCase(), command);
+        commands.add(command);
     }
 
     @EventTarget
@@ -33,7 +33,7 @@ public class CommandManager {
 
         String[] args = event.getMessage().substring(1).split(" ");
         String name = args[0];
-        Command command = commandMap.get(name.toLowerCase());
+        Command command = getCommand(name);
         if (command == null) {
             NotifyUtil.notifyAsMessage(ChatFormatting.RED + "命令" + name + "不存在");
         } else {
@@ -43,6 +43,15 @@ public class CommandManager {
     }
 
     public Command getCommand(String name) {
-        return commandMap.get(name.toLowerCase());
+        for (Command command : commands) {
+            if (command.getName().equalsIgnoreCase(name)) {
+                return command;
+            }
+        }
+        return null;
+    }
+
+    public List<Command> getCommands() {
+        return new ArrayList<>(commands);
     }
 }

@@ -1,0 +1,43 @@
+package com.shootforever.nuclear.value.values;
+
+import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.value.Value;
+
+public class NumberValue extends Value<Float> {
+    private final float min;
+    private final float max;
+    private final float step;
+    private final String suffix;
+
+    public NumberValue(Module module, String name, float value, float min, float max, float step, String suffix) {
+        super(module, name, value);
+        this.min = min;
+        this.max = max;
+        this.step = step;
+        this.suffix = suffix;
+    }
+
+    public NumberValue(Module module, String name, float value, float min, float max, float step) {
+        super(module, name, value);
+        this.min = min;
+        this.max = max;
+        this.step = step;
+        this.suffix = null;
+    }
+
+    public float getMin() {
+        return min;
+    }
+
+    public float getMax() {
+        return max;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public float getStep() {
+        return step;
+    }
+}

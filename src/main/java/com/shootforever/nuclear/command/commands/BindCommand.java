@@ -26,13 +26,8 @@ public class BindCommand extends Command {
         }
 
         Integer key = KeyboardUtil.getKeyNumber(args[1]);
-        if (key == null) {
-            NotifyUtil.notifyAsMessage(ChatFormatting.RED + args[1].toUpperCase() + "键不存在");
-            return;
-        }
-
         module.setKey(key);
-        NotifyUtil.notifyAsMessage("模块" + args[0] + "成功绑定为" + args[1].toUpperCase() + "键");
+        NotifyUtil.notifyAsMessage("模块" + module.getName() + "成功绑定为" + KeyboardUtil.getKeyName(key) + "键");
     }
 
 

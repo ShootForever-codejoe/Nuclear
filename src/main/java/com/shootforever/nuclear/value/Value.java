@@ -1,28 +1,32 @@
 package com.shootforever.nuclear.value;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.shootforever.nuclear.module.Module;
 
-public abstract class Value {
-    private final String name;
+public abstract class Value<T> {
+    protected final Module module;
+    protected final String name;
+    protected T value;
 
-    protected Value(String name) {
+    protected Value(Module module, String name, T value) {
+        this.module = module;
+        module.registerValue(this);
         this.name = name;
+        this.value = value;
+    }
+
+    public Module getModule() {
+        return module;
     }
 
     public String getName() {
         return name;
     }
 
-    public static List<SingleValue> getSingleValues(List<Value> values) {
-        List<SingleValue> singleValues = new ArrayList<>();
-        for (Value value : values) {
-            if (value instanceof SingleValue) {
-                singleValues.add((SingleValue) value);
-            } else if (value instanceof ValueSet) {
-                singleValues.addAll(getSingleValues(((ValueSet) value).getValues()));
-            }
-        }
-        return singleValues;
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
     }
 }

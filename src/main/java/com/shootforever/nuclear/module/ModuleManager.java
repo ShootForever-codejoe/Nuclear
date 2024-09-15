@@ -10,11 +10,11 @@ import com.shootforever.nuclear.module.modules.render.*;
 import com.shootforever.nuclear.module.modules.world.*;
 import com.shootforever.nuclear.util.KeyboardUtil;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModuleManager {
-    private final Map<String, Module> moduleMap = new ConcurrentHashMap<>();
+    private final List<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
         registerModule(new HUD());
@@ -24,7 +24,7 @@ public class ModuleManager {
         registerModule(new MoveFix());
         registerModule(new IRC());
 
-        getModule("ClickGUI").setKey(KeyboardUtil.getKeyNumber("rshift"));
+        getModule("ClickGUI").setKey(KeyboardUtil.getKeyNumber("RSHIFT"));
 
         Nuclear.getInstance().getEventManager().register(this);
     }
@@ -39,11 +39,11 @@ public class ModuleManager {
     }
 
     private void registerModule(Module module) {
-        moduleMap.put(module.getName(), module);
+        modules.add(module);
     }
 
     public Module getModule(String name) {
-        for (Module module : getModules()) {
+        for (Module module : modules) {
             if (module.getName().equalsIgnoreCase(name)) {
                 return module;
             }
@@ -51,7 +51,7 @@ public class ModuleManager {
         return null;
     }
 
-    public Collection<Module> getModules() {
-        return moduleMap.values();
+    public List<Module> getModules() {
+        return new ArrayList<>(modules);
     }
 }

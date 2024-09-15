@@ -1,9 +1,7 @@
 package com.shootforever.nuclear.module;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.value.SingleValue;
 import com.shootforever.nuclear.value.Value;
-import com.shootforever.nuclear.value.ValueSet;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
@@ -11,23 +9,15 @@ import java.util.List;
 
 public abstract class Module {
     protected static Minecraft mc = Minecraft.getInstance();
-
-    private final String name;
-    private final Category category;
-    private int key = 0;
-    private boolean enabled;
-    private final List<Value> values;
-
-    protected Module(String name, Category category, List<Value> values) {
-        this.name = name;
-        this.category = category;
-        this.values = List.copyOf(values);
-    }
+    protected final String name;
+    protected final Category category;
+    protected int key = 0;
+    protected boolean enabled;
+    protected List<Value<?>> values = new ArrayList<>();
 
     protected Module(String name, Category category) {
         this.name = name;
         this.category = category;
-        this.values = List.of();
     }
 
     public String getName() {
@@ -65,7 +55,20 @@ public abstract class Module {
         }
     }
 
-    public List<Value> getValues() {
-        return values;
+    public List<Value<?>> getValues() {
+        return new ArrayList<>(values);
+    }
+
+    public Value<?> getValue(String name) {
+        for (Value<?> value : values) {
+            if (value.getName().equalsIgnoreCase(name)) {
+                return value;
+            }
+        }
+        return null;
+    }
+
+    public void registerValue(Value<?> value) {
+        values.add(value);
     }
 }
