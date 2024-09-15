@@ -42,10 +42,13 @@ public class ValueCommand extends Command {
                 NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "只能是数字");
                 return;
             }
+            if (number < numberValue.getMin() || number > numberValue.getMax()) {
+                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "的范围是" + numberValue.getMin() + "-" + numberValue.getMax());
+            }
             if ((number / numberValue.getStep()) % 1 == 0 /* 判断number/step是否为整数 */ ) {
                 numberValue.setValue(number);
             } else {
-                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "的最小间隔为" + numberValue.getStep());
+                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "的最小间隔是" + numberValue.getStep());
             }
         } else if (value instanceof BooleanValue booleanValue) {
             if (args[2].equalsIgnoreCase("on")) {
@@ -53,7 +56,7 @@ public class ValueCommand extends Command {
             } else if (args[2].equalsIgnoreCase("off")) {
                 booleanValue.setValue(false);
             } else {
-                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "只能为on或off");
+                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "模块" + module.getName() + "的值" + value.getName() + "只能是on或off");
             }
         } else if (value instanceof ChoiceValue choiceValue) {
             if (choiceValue.isChoice(args[2])) {
