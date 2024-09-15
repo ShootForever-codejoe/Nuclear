@@ -7,7 +7,8 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod("nuclear")
 public class Nuclear {
-    public static String version = "1.0";
+    public static final String name = "Nuclear";
+    public static final String version = "1.0";
 
     private static Nuclear instance;
 
