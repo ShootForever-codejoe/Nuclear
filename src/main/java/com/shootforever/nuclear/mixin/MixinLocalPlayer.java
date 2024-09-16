@@ -3,12 +3,18 @@ package com.shootforever.nuclear.mixin;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
+import com.shootforever.nuclear.event.events.PlayerUpdateEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
+import net.minecraft.network.protocol.game.ServerboundMoveVehiclePacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
+import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +23,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
@@ -46,10 +54,13 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
     @Shadow @Final protected Minecraft minecraft;
 
+    @Shadow public Input input;
+
+    @Shadow @Final private List<AmbientSoundHandler> ambientSoundHandlers;
+
     public MixinLocalPlayer() {
         super(null, null);
     }
-
 
     /**
      * @author shootforever
@@ -121,6 +132,34 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
         if (event.isCancelled()) {
             ci.cancel();
+        }
+    }
+
+    /**
+     * @author shootforever
+     * @reason null
+     */
+    @Overwrite
+    public void tick() {
+        if (this.level.hasChunkAt(this.getBlockX(), this.getBlockZ())) {
+            PlayerUpdateEvent event = new PlayerUpdateEvent();
+            Nuclear.getInstance().getEventManager().call(event);
+            super.tick();
+            if (this.isPassenger()) {
+                this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
+                this.connection.send(new ServerboundPlayerInputPacket(this.xxa, this.zza, this.input.jumping, this.input.shiftKeyDown));
+                Entity entity = this.getRootVehicle();
+                if (entity != this && entity.isControlledByLocalInstance()) {
+                    this.connection.send(new ServerboundMoveVehiclePacket(entity));
+                }
+            } else {
+                this.sendPosition();
+            }
+
+            for(AmbientSoundHandler ambientsoundhandler : this.ambientSoundHandlers) {
+                ambientsoundhandler.tick();
+            }
+
         }
     }
 }

@@ -8,7 +8,6 @@ import com.shootforever.nuclear.module.modules.misc.*;
 import com.shootforever.nuclear.module.modules.movement.*;
 import com.shootforever.nuclear.module.modules.render.*;
 import com.shootforever.nuclear.module.modules.world.*;
-import com.shootforever.nuclear.util.KeyboardUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class ModuleManager {
         registerModule(new KillAura());
         registerModule(new MoveFix());
         registerModule(new IRC());
+        registerModule(new Sprint());
 
         Nuclear.getInstance().getEventManager().register(this);
     }

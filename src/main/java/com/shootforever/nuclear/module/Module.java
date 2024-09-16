@@ -11,9 +11,9 @@ public abstract class Module {
     protected final Minecraft mc = Minecraft.getInstance();
     protected final String name;
     protected final Category category;
-    protected int key = 0;
-    protected boolean enabled;
-    protected List<Value<?>> values = new ArrayList<>();
+    private int key = 0;
+    private boolean enabled;
+    private final List<Value<?>> values = new ArrayList<>();
 
     protected Module(String name, Category category) {
         this.name = name;

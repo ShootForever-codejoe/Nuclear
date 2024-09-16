@@ -5,12 +5,14 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "nuclear.refmap.json",
   "mixins": [
+    "MixinEntity",
     "MixinLivingEntity",
     "MixinPlayer"
   ],
   "client": [
     "MixinGameRenderer",
     "MixinKeyboardHandler",
+    "MixinKeyboardInput",
     "MixinLocalPlayer"
   ],
   "injectors": {
