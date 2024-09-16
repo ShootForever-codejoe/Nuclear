@@ -23,6 +23,7 @@ public class ModuleManager {
         registerModule(new MoveFix());
         registerModule(new IRC());
         registerModule(new Sprint());
+        registerModule(new Teams());
 
         Nuclear.getInstance().getEventManager().register(this);
     }
@@ -49,7 +50,13 @@ public class ModuleManager {
         return null;
     }
 
+
     public List<Module> getModules() {
         return new ArrayList<>(modules);
     }
+
+
+
+
 }
+
