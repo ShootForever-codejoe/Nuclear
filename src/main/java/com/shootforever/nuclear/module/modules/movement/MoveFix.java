@@ -43,8 +43,7 @@ public class MoveFix extends Module {
 
     @EventTarget
     public void onMovementInput(MovementInputEvent event) {
-        if (mc.player == null) return;
-        if ((yaw == null && pitch == null) || !needUpdate) return;
+        if (mc.player == null || yaw == null || pitch == null || !needUpdate) return;
 
         final float forward = event.getForward();
         final float strafe = event.getStrafe();

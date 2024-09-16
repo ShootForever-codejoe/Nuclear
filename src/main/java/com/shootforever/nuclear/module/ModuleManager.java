@@ -7,7 +7,7 @@ import com.shootforever.nuclear.module.modules.combat.*;
 import com.shootforever.nuclear.module.modules.misc.*;
 import com.shootforever.nuclear.module.modules.movement.*;
 import com.shootforever.nuclear.module.modules.render.*;
-import com.shootforever.nuclear.module.modules.world.*;
+import com.shootforever.nuclear.module.modules.player.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,25 @@ public class ModuleManager {
     private final List<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
-        registerModule(new HUD());
-        registerModule(new ClickGUI());
-        registerModule(new Scaffold());
-        registerModule(new KillAura());
-        registerModule(new MoveFix());
-        registerModule(new IRC());
-        registerModule(new Sprint());
+        registerModules(
+                // Combat
+                new KillAura(),
+
+                // Movement
+                new Sprint(),
+                new MoveFix(),
+
+                // Render
+                new HUD(),
+                new ClickGUI(),
+
+                // Player
+                new Eagle(),
+                new Scaffold(),
+
+                // Misc
+                new IRC()
+        );
 
         Nuclear.getInstance().getEventManager().register(this);
     }
@@ -33,6 +45,12 @@ public class ModuleManager {
             if (module.getKey() != 0 && event.getKey() == module.getKey()) {
                 module.setEnabled(!module.isEnabled());
             }
+        }
+    }
+
+    private void registerModules(Module... modules) {
+        for (Module module : modules) {
+            registerModule(module);
         }
     }
 
