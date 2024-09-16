@@ -24,8 +24,6 @@ public class ModuleManager {
         registerModule(new MoveFix());
         registerModule(new IRC());
 
-        getModule("ClickGUI").setKey(KeyboardUtil.getKeyNumber("RSHIFT"));
-
         Nuclear.getInstance().getEventManager().register(this);
     }
 

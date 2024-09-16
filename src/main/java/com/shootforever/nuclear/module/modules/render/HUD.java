@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class HUD extends Module {
     private final ChoiceValue color = new ChoiceValue(this, "Color", "White", new ArrayList<>(ChatFormatting.getNames(true, true)));
     private final NumberValue y = new NumberValue(this, "Y", 24f, 0f, 100f, 0.1f);
-    private final NumberValue rowledge = new NumberValue(this, "Rowledge", 16f, 0f, 30f, 0.1f);
+    private final NumberValue rowledge = new NumberValue(this, "Rowledge", 12f, 0f, 30f, 0.1f);
 
     public HUD() {
         super("HUD", Category.Render);
