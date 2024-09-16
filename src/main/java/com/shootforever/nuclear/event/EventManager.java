@@ -77,16 +77,15 @@ public class EventManager {
      * Calls the registered methods associated with the provided event, respecting their priorities.
      *
      * @param event The event to call the registered methods for.
-     * @return The modified or processed event after calling the methods.
      */
-    public Event call(Event event) {
+    public void call(Event event) {
         Class<? extends Event> eventClass = event.getClass();
 
         List<Method> methods = priorityMethodMap.get(eventClass);
         if (methods != null) {
             methods.sort(Comparator.comparingInt(method -> {
-                EventPriority priority = method.getAnnotation(EventPriority.class);
-                return (priority != null) ? priority.value() : 10;
+                EventTarget eventTarget = method.getAnnotation(EventTarget.class);
+                return eventTarget.priority();
             }));
 
             for (Method method : methods) {
@@ -99,7 +98,5 @@ public class EventManager {
                 }
             }
         }
-
-        return event;
     }
 }

@@ -3,12 +3,14 @@ package com.shootforever.nuclear;
 import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
 import com.shootforever.nuclear.module.ModuleManager;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod("nuclear")
 public class Nuclear {
     public static final String name = "Nuclear";
     public static final String version = "1.0";
+    public static final Minecraft mc = Minecraft.getInstance();
 
     private static Nuclear instance;
 

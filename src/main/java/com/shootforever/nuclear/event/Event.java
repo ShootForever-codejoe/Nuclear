@@ -1,9 +1,9 @@
 package com.shootforever.nuclear.event;
 
 /**
- * Marker interface for events.
+ * Marker abstract class for events.
  */
-public interface Event {
-    // This interface doesn't contain any methods or fields.
+public abstract class Event {
+    // This abstract class doesn't contain any methods or fields.
     // It's used to mark classes as events.
 }

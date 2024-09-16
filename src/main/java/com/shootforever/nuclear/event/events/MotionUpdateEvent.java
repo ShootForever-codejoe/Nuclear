@@ -2,7 +2,7 @@ package com.shootforever.nuclear.event.events;
 
 import com.shootforever.nuclear.event.Event;
 
-public class MotionUpdateEvent implements Event {
+public class MotionUpdateEvent extends Event {
     private final double x, y, z;
     private final float yaw, pitch;
     private final boolean onGround;

@@ -2,9 +2,9 @@ package com.shootforever.nuclear.event;
 
 /**
  * An abstract class for cancellable events.
- * This class implements the {@link Event} and {@link Cancellable} interfaces.
+ * This class extends the {@link Event} abstract class.
  */
-public abstract class CancellableEvent implements Event, Cancellable {
+public abstract class CancellableEvent extends Event {
 	/**
 	 * A flag indicating whether the event has been cancelled.
 	 */
@@ -15,7 +15,6 @@ public abstract class CancellableEvent implements Event, Cancellable {
 	 *
 	 * @param cancelled {@code true} to cancel the event, {@code false} to allow it.
 	 */
-	@Override
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}
@@ -25,7 +24,6 @@ public abstract class CancellableEvent implements Event, Cancellable {
 	 *
 	 * @return {@code true} if the event is cancelled, {@code false} otherwise.
 	 */
-	@Override
 	public boolean isCancelled() {
 		return cancelled;
 	}

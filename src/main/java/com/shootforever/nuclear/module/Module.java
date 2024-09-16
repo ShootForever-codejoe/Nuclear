@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Module {
-    protected static Minecraft mc = Minecraft.getInstance();
+    protected final Minecraft mc = Minecraft.getInstance();
     protected final String name;
     protected final Category category;
     protected int key = 0;
