@@ -24,6 +24,7 @@ public class ModuleManager {
         registerModule(new IRC());
         registerModule(new Sprint());
         registerModule(new Teams());
+        registerModule(new Noslow());
 
         Nuclear.getInstance().getEventManager().register(this);
     }
