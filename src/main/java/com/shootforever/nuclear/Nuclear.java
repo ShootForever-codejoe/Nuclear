@@ -6,21 +6,30 @@ import com.shootforever.nuclear.module.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Mod("nuclear")
 public class Nuclear {
     public static final String name = "Nuclear";
     public static final String version = "1.0";
     public static final Minecraft mc = Minecraft.getInstance();
-    public static Nuclear INSTANCE = new Nuclear();
-    private Minecraft minecraft;
+    public static final Path dataDir = Paths.get("%appdata%\\Nuclear");
 
     private static Nuclear instance;
-
     private final EventManager eventManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
+
+    static {
+        try {
+            Files.createDirectories(dataDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public Nuclear() {
         instance = this;
@@ -75,4 +84,3 @@ public class Nuclear {
         this.minecraft = minecraft;
     }
 }
-
