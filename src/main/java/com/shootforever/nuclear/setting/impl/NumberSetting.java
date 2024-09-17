@@ -1,0 +1,56 @@
+package com.shootforever.nuclear.setting.impl;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.setting.HideIf;
+import com.shootforever.nuclear.setting.Setting;
+
+
+public class NumberSetting extends Setting<Number> {
+    private final Number maxValue;
+    private final Number minValue;
+    private final Number step;
+
+    public NumberSetting(String name, Module module, Number value, Number minValue, Number maxValue, Number step, HideIf hideIf) {
+        super(name, module, value, hideIf);
+        this.maxValue = maxValue;
+        this.minValue = minValue;
+        this.step = step;
+    }
+
+    public NumberSetting(String name, Module module, Number value, Number minValue, Number maxValue, Number step) {
+        this(name, module, value, minValue, maxValue, step, new HideIf() {
+            @Override
+            public boolean hide() {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void toJson(JsonObject object) {
+        object.addProperty(this.getName(), this.getValue());
+    }
+
+    @Override
+    public void formJson(JsonElement element) {
+        this.setValue(element.getAsNumber());
+    }
+
+
+    public Number getMaxValue() {
+        return this.maxValue;
+    }
+
+
+    public Number getMinValue() {
+        return this.minValue;
+    }
+
+
+    public Number getStep() {
+        return this.step;
+    }
+}

@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import com.shootforever.nuclear.event.events.MotionEvent;
+import com.shootforever.nuclear.setting.Setting;
+import com.shootforever.nuclear.setting.impl.BooleanSetting;
+import com.shootforever.nuclear.setting.impl.NumberSetting;
+import com.shootforever.nuclear.util.RotationUtils;
+import com.shootforever.nuclear.util.TimerUtils;
+import com.shootforever.nuclear.util.misc.EntityUtils;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
+import com.shootforever.nuclear.event.Event;
+import com.shootforever.nuclear.event.events.annotations.EventPriority;
+import com.shootforever.nuclear.event.events.LivingUpdateEvent;
+import com.shootforever.nuclear.module.Category;
+import com.shootforever.nuclear.module.Module;
 import net.minecraft.world.entity.LivingEntity;
-import net.moran.loratadine.event.Event;
-import net.moran.loratadine.event.annotations.EventPriority;
-import net.moran.loratadine.event.impl.LivingUpdateEvent;
-import net.moran.loratadine.event.impl.MotionEvent;
-import net.moran.loratadine.modules.Category;
-import net.moran.loratadine.modules.Module;
-import net.moran.loratadine.setting.impl.BooleanSetting;
-import net.moran.loratadine.setting.impl.NumberSetting;
-import net.moran.loratadine.utils.RotationUtils;
-import net.moran.loratadine.utils.TimerUtils;
-import net.moran.loratadine.utils.misc.EntityUtils;
 
 public class KillAura extends Module {
     private final NumberSetting cpsValue = new NumberSetting("CPS", this, 11, 1, 20, 1);
@@ -29,11 +30,11 @@ public class KillAura extends Module {
     private final BooleanSetting deadValue = new BooleanSetting("Dead", this, false);
     private final BooleanSetting invisibleValue = new BooleanSetting("Invisible", this, false);
     private static LivingEntity target;
-    private final List<LivingEntity> targets = new ArrayList<>().reversed();
+    private final List<LivingEntity> targets = new ArrayList<>();
     private final TimerUtils timer = new TimerUtils();
 
     public KillAura() {
-        super("KillAura", Category.COMBAT, 82);
+        super("KillAura", Category.Combat, 82);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class KillAura extends Module {
 
     @EventPriority
     public void onMotion(LivingUpdateEvent event) {
-        List<LivingEntity> targets = new ArrayList<>().reversed();
+        List<LivingEntity> targets = new ArrayList<>();
 
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (entity instanceof LivingEntity) {
@@ -112,5 +113,10 @@ public class KillAura extends Module {
 
     public List<LivingEntity> getTargets() {
         return this.targets;
+    }
+
+    @Override
+    public ArrayList<Setting<?>> getSettings() {
+        return super.getSettings();
     }
 }

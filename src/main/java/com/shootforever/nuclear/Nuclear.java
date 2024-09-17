@@ -39,6 +39,7 @@ public class Nuclear {
         commandManager = new CommandManager();
     }
 
+
     public static Nuclear getInstance() {
         return instance;
     }
@@ -53,5 +54,33 @@ public class Nuclear {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    private Minecraft get_mc_Instance() {
+        Minecraft minecraft = null;
+
+        try {
+            Class<?> classMinecraft = Class.forName("net.minecraft.client.Minecraft");
+
+            for (Field field : classMinecraft.getDeclaredFields()) {
+                if (field.getType() == classMinecraft) {
+                    field.setAccessible(true);
+                    minecraft = (Minecraft)field.get(null);
+                    field.setAccessible(false);
+                }
+            }
+        } catch (Throwable var7) {
+            var7.printStackTrace();
+        }
+
+        return minecraft;
+    }
+
+    public Minecraft getMinecraft() {
+        return this.minecraft;
+    }
+
+    public void setMinecraft(Minecraft minecraft) {
+        this.minecraft = minecraft;
     }
 }
