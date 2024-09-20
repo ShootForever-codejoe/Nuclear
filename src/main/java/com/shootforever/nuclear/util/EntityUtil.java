@@ -1,8 +1,7 @@
-package com.shootforever.nuclear.util.misc;
+package com.shootforever.nuclear.util;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.module.modules.misc.Teams;
-import com.shootforever.nuclear.util.wrapper.Wrapper;
+import com.shootforever.nuclear.module.modules.misc.Team;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.world.entity.Entity;
@@ -19,21 +18,20 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 
-public final class EntityUtils implements Wrapper {
-    private static String Teams;
+public final class EntityUtil {
+    private static final Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
 
     public static boolean isSelected(
             Entity entity, boolean targetPlayer, boolean targetMobs, boolean targetAnimals, boolean targetDead, boolean targetInvisible, boolean canAttackCheck
     ) {
-        if (entity instanceof LivingEntity && (targetDead || entity.isAlive()) && !entity.equals(mc.player) && (targetInvisible || !entity.isInvisible())) {
+        if (entity instanceof LivingEntity && (targetDead || entity.isAlive()) && !entity.equals(Nuclear.mc.player) && (targetInvisible || !entity.isInvisible())) {
             if (targetPlayer && entity instanceof Player entityPlayer) {
                 if (!canAttackCheck) {
                     return true;
                 } else if (entityPlayer.isSpectator()) {
                     return false;
                 } else {
-                    Teams teams = (Teams) Nuclear.INSTANCE.getModuleManager().getModule(Teams);
-                    return !teams.isEnabled() || !teams.isSameTeam(entityPlayer);
+                    return !team.isEnabled() || !team.isSameTeam(entityPlayer);
                 }
             } else {
                 return targetMobs && isMob(entity) || targetAnimals && isAnimal(entity);
@@ -60,7 +58,7 @@ public final class EntityUtils implements Wrapper {
         if (entityPlayer == null) {
             return 0;
         } else {
-            ClientPacketListener connection = mc.getConnection();
+            ClientPacketListener connection = Nuclear.mc.getConnection();
             if (connection == null) {
                 return 0;
             } else {

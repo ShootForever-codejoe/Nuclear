@@ -19,7 +19,6 @@ public class HUD extends Module {
 
     public HUD() {
         super("HUD", Category.Render);
-        setEnabled(true);
     }
 
     @EventTarget

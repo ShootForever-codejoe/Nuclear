@@ -15,7 +15,6 @@ public class MoveFix extends Module {
 
     public MoveFix() {
         super("MoveFix", Category.Movement);
-        setEnabled(true);
     }
 
     @EventTarget

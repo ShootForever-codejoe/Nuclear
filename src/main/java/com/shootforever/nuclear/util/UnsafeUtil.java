@@ -1,10 +1,10 @@
-package com.shootforever.nuclear.util.unsafe;
+package com.shootforever.nuclear.util;
 
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
-public class UnsafeUtils {
+public class UnsafeUtil {
     private static final Unsafe unsafe;
 
     private static Unsafe getUnsafeInstance() throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
@@ -63,15 +63,15 @@ public class UnsafeUtils {
     }
 
     public static void loadClass(Class<?> clazz) {
-        //unsafe.ensureClassInitialized(clazz);
+        // unsafe.ensureClassInitialized(clazz);
     }
 
     public static long getArrayBaseOffset(Class<?> clazz) {
-        return (long)unsafe.arrayBaseOffset(clazz);
+        return unsafe.arrayBaseOffset(clazz);
     }
 
     public static long getArrayIndexScale(Class<?> clazz) {
-        return (long)unsafe.arrayIndexScale(clazz);
+        return unsafe.arrayIndexScale(clazz);
     }
 
 

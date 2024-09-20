@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.vector;
+package com.shootforever.nuclear.util;
 
 public class Vector3d {
     public double x;
@@ -53,9 +53,10 @@ public class Vector3d {
 
     @Override
     public boolean equals(Object obj) {
-        return !(obj instanceof Vector3d vector)
-                ? false
-                : Math.floor(this.x) == Math.floor(vector.x) && Math.floor(this.y) == Math.floor(vector.y) && Math.floor(this.z) == Math.floor(vector.z);
+        return obj instanceof Vector3d vector
+                && Math.floor(this.x) == Math.floor(vector.x)
+                && Math.floor(this.y) == Math.floor(vector.y)
+                && Math.floor(this.z) == Math.floor(vector.z);
     }
 
 

@@ -1,9 +1,10 @@
 package com.shootforever.nuclear.mixin;
 
 import com.shootforever.nuclear.Nuclear;
+import com.shootforever.nuclear.event.Event;
 import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
-import com.shootforever.nuclear.event.events.PlayerUpdateEvent;
+import com.shootforever.nuclear.event.events.PlayerTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -11,10 +12,7 @@ import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
-import net.minecraft.network.protocol.game.ServerboundMoveVehiclePacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -54,8 +52,6 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
     @Shadow @Final protected Minecraft minecraft;
 
-    @Shadow public Input input;
-
     @Shadow @Final private List<AmbientSoundHandler> ambientSoundHandlers;
 
     public MixinLocalPlayer() {
@@ -89,8 +85,8 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
             double d4 = event.getX() - this.xLast;
             double d0 = event.getY() - this.yLast1;
             double d1 = event.getZ() - this.zLast;
-            double d2 = (double)(this.getYRot() - this.yRotLast);
-            double d3 = (double)(this.getXRot() - this.xRotLast);
+            double d2 = this.getYRot() - this.yRotLast;
+            double d3 = this.getXRot() - this.xRotLast;
             ++this.positionReminder;
             boolean flag1 = d4 * d4 + d0 * d0 + d1 * d1 > 9.0E-4D || this.positionReminder >= 20;
             boolean flag2 = d2 != 0.0D || d3 != 0.0D;
@@ -135,31 +131,21 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
         }
     }
 
-    /**
-     * @author shootforever
-     * @reason null
-     */
-    @Overwrite
-    public void tick() {
-        if (this.level.hasChunkAt(this.getBlockX(), this.getBlockZ())) {
-            PlayerUpdateEvent event = new PlayerUpdateEvent();
-            Nuclear.getInstance().getEventManager().call(event);
-            super.tick();
-            if (this.isPassenger()) {
-                this.connection.send(new ServerboundMovePlayerPacket.Rot(this.getYRot(), this.getXRot(), this.onGround));
-                this.connection.send(new ServerboundPlayerInputPacket(this.xxa, this.zza, this.input.jumping, this.input.shiftKeyDown));
-                Entity entity = this.getRootVehicle();
-                if (entity != this && entity.isControlledByLocalInstance()) {
-                    this.connection.send(new ServerboundMoveVehiclePacket(entity));
-                }
-            } else {
-                this.sendPosition();
-            }
+    @Inject(method = "tick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/player/AbstractClientPlayer;tick()V",
+            shift = At.Shift.BEFORE,
+            ordinal = 0))
+    public void preTick(CallbackInfo ci) {
+        PlayerTickEvent event = new PlayerTickEvent(Event.Side.PRE);
+        Nuclear.getInstance().getEventManager().call(event);
+    }
 
-            for(AmbientSoundHandler ambientsoundhandler : this.ambientSoundHandlers) {
-                ambientsoundhandler.tick();
-            }
-
-        }
+    @Inject(method = "tick", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/client/player/AbstractClientPlayer;tick()V",
+            shift = At.Shift.AFTER,
+            ordinal = 0))
+    public void postTick(CallbackInfo ci) {
+        PlayerTickEvent event = new PlayerTickEvent(Event.Side.POST);
+        Nuclear.getInstance().getEventManager().call(event);
     }
 }

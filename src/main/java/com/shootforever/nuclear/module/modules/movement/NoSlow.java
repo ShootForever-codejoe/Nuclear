@@ -1,14 +1,15 @@
 package com.shootforever.nuclear.module.modules.movement;
 
 import com.shootforever.nuclear.event.Event;
-import com.shootforever.nuclear.event.events.CustomKeyboardInput;
-import com.shootforever.nuclear.event.events.MotionEvent;
+import com.shootforever.nuclear.event.EventTarget;
+import com.shootforever.nuclear.event.events.KeyboardInputEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.player.Input;
+import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
@@ -27,33 +28,32 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
-import com.shootforever.nuclear.event.events.annotations.EventPriority;
 import com.shootforever.nuclear.event.events.GameTickEvent;
 
+public class NoSlow extends Module {
+    private Input old;
+    private boolean shouldSlow;
+    private boolean keyboardInputCancelled = false;
 
-
-public class Noslow extends Module {
-    Input old;
-    boolean shouldSlow;
-
-    public Noslow() {
+    public NoSlow() {
         super("NoSlow", Category.Movement);
-        this.setEnabled(true);
     }
 
     @Override
     public void onEnable() {
         if (mc.player != null) {
-            this.old = mc.player.input;
-            if (!(mc.player.input instanceof CustomKeyboardInput)) {
-                mc.player.input = new CustomKeyboardInput(mc.options);
+            old = mc.player.input;
+            if (!(mc.player.input instanceof KeyboardInput)) {
+                mc.player.input = new KeyboardInput(mc.options);
             }
         }
     }
 
     @Override
     public void onDisable() {
-        mc.player.input = this.old;
+        if (mc.player != null) {
+            mc.player.input = old;
+        }
     }
 
     private boolean isUsable(ItemStack itemStack) {
@@ -69,18 +69,19 @@ public class Noslow extends Module {
         }
     }
 
-    @EventPriority
-    public void onMotion(MotionEvent event) {
-        this.setSuffix("Heypixel");
-        if (event.getSide() != Event.Side.POST) {
-            if (mc.player.isUsingItem() && this.isUsable(mc.player.getMainHandItem()) || this.isUsable(mc.player.getOffhandItem())) {
-                this.send();
+    @EventTarget
+    public void onMotion(GameTickEvent event) {
+        if (mc.player != null && event.getSide() != Event.Side.POST) {
+            if (mc.player.isUsingItem() && isUsable(mc.player.getMainHandItem()) || isUsable(mc.player.getOffhandItem())) {
+                send();
             }
         }
     }
 
-    @EventPriority
+    @EventTarget
     public void onPacket(PacketEvent event) {
+        if (mc.player == null || mc.level == null) return;
+
         Packet<?> packet = event.getPacket();
         if (event.getSide() == Event.Side.PRE) {
             Block block = null;
@@ -89,12 +90,12 @@ public class Noslow extends Module {
                 block = mc.level.getBlockState(((BlockHitResult)hitResult).getBlockPos()).getBlock();
             }
 
-            if (this.isUsable(mc.player.getMainHandItem())
-                    || this.isUsable(mc.player.getOffhandItem()) && mc.player.isUsingItem() && (block == null || block != Blocks.CHEST)) {
+            if (isUsable(mc.player.getMainHandItem())
+                    || isUsable(mc.player.getOffhandItem()) && mc.player.isUsingItem() && (block == null || block != Blocks.CHEST)) {
                 if (packet instanceof ClientboundContainerSetContentPacket) {
                     event.setCancelled(true);
-                    this.noCancel();
-                    this.shouldSlow = false;
+                    noCancel();
+                    shouldSlow = false;
                 }
 
                 if (packet instanceof ClientboundContainerSetSlotPacket) {
@@ -103,59 +104,67 @@ public class Noslow extends Module {
             }
         }
 
-        if (event.getSide() == Event.Side.POST && (this.isUsable(mc.player.getMainHandItem()) || this.isUsable(mc.player.getOffhandItem()))) {
+        if (event.getSide() == Event.Side.POST && (isUsable(mc.player.getMainHandItem()) || isUsable(mc.player.getOffhandItem()))) {
             if (packet instanceof ServerboundUseItemPacket) {
-                this.noCancel();
-                this.shouldSlow = true;
-                this.send();
+                noCancel();
+                shouldSlow = true;
+                send();
             }
 
-            if (packet instanceof ServerboundPlayerActionPacket && ((ServerboundPlayerActionPacket)packet).getAction() == Action.RELEASE_USE_ITEM) {
-                this.noCancel();
-                this.shouldSlow = true;
+            if (packet instanceof ServerboundPlayerActionPacket serverboundPlayerActionPacket
+                    && (serverboundPlayerActionPacket).getAction() == Action.RELEASE_USE_ITEM) {
+                noCancel();
+                shouldSlow = true;
             }
         }
     }
 
     private void send() {
+        if (mc.player == null) return;
+
         if (mc.player.getUseItemRemainingTicks()
-                % (
-                !(mc.player.getMainHandItem().getItem() instanceof BowItem)
-                        && !(mc.player.getOffhandItem().getItem() instanceof BowItem)
-                        && !(mc.player.getMainHandItem().getItem() instanceof CrossbowItem)
-                        && !(mc.player.getOffhandItem().getItem() instanceof CrossbowItem)
-                        ? 6
-                        : 8
-        )
-                == 0) {
-            Int2ObjectMap<ItemStack> modifiedStacks = new Int2ObjectOpenHashMap();
+                % (!(mc.player.getMainHandItem().getItem() instanceof BowItem)
+                    && !(mc.player.getOffhandItem().getItem() instanceof BowItem)
+                    && !(mc.player.getMainHandItem().getItem() instanceof CrossbowItem)
+                    && !(mc.player.getOffhandItem().getItem() instanceof CrossbowItem)
+                    ? 6 : 8) == 0) {
+            Int2ObjectMap<ItemStack> modifiedStacks = new Int2ObjectOpenHashMap<>();
             modifiedStacks.put(36, new ItemStack(Items.BARRIER));
             mc.player.connection.send(new ServerboundContainerClickPacket(0, 0, 36, 0, ClickType.SWAP, new ItemStack(Blocks.BARRIER), modifiedStacks));
         }
     }
 
-    private void noCancel() {
-        if (!(mc.player.input instanceof CustomKeyboardInput)) {
-            this.old = mc.player.input;
-            mc.player.input = new CustomKeyboardInput(mc.options);
+    @EventTarget
+    public void onKeyboardInput(KeyboardInputEvent event) {
+        if (keyboardInputCancelled) {
+            event.setCancelled(true);
         }
-
-        CustomKeyboardInput move = (CustomKeyboardInput)mc.player.input;
-        move.setCancel(false);
     }
 
-    @EventPriority
-    public void onSlowDown(GameTickEvent event) {
-        if (!(mc.player.input instanceof CustomKeyboardInput)) {
-            this.old = mc.player.input;
-            mc.player.input = new CustomKeyboardInput(mc.options);
+    private void noCancel() {
+        if (mc.player == null) return;
+
+        if (!(mc.player.input instanceof KeyboardInput)) {
+            old = mc.player.input;
+            mc.player.input = new KeyboardInput(mc.options);
         }
 
-        CustomKeyboardInput move = (CustomKeyboardInput)mc.player.input;
+        keyboardInputCancelled = false;
+    }
+
+    @EventTarget
+    public void onSlowDown(GameTickEvent event) {
+        if (mc.player == null) return;
+
+        if (!(mc.player.input instanceof KeyboardInput)) {
+            old = mc.player.input;
+            mc.player.input = new KeyboardInput(mc.options);
+        }
+
         if (mc.player.isUsingItem()) {
-            move.setCancel(!this.shouldSlow);
+            keyboardInputCancelled = !shouldSlow;
         } else {
-            move.setCancel(false);
+            keyboardInputCancelled = false;
         }
     }
 }

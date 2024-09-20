@@ -19,10 +19,12 @@ public class ModuleManager {
         registerModules(
                 // Combat
                 new KillAura(),
+                new Velocity(),
 
                 // Movement
                 new Sprint(),
                 new MoveFix(),
+                new NoSlow(),
 
                 // Render
                 new HUD(),
@@ -33,7 +35,8 @@ public class ModuleManager {
                 new Scaffold(),
 
                 // Misc
-                new IRC()
+                new IRC(),
+                new Team()
         );
 
         Nuclear.getInstance().getEventManager().register(this);

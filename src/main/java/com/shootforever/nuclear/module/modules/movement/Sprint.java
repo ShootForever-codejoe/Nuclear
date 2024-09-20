@@ -9,7 +9,6 @@ import net.minecraft.client.KeyMapping;
 public class Sprint extends Module {
     public Sprint() {
         super("Sprint", Category.Movement);
-        setEnabled(true);
     }
 
     @EventTarget

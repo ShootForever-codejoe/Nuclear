@@ -1,13 +1,12 @@
 package com.shootforever.nuclear.module.modules.combat;
 
-import java.lang.reflect.Field;
-
-import com.shootforever.nuclear.event.events.LivingUpdateEvent;
+import com.shootforever.nuclear.Nuclear;
+import com.shootforever.nuclear.event.EventTarget;
+import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
-import com.shootforever.nuclear.event.events.annotations.EventPriority;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.helper.ReflectionHelper;
+import com.shootforever.nuclear.util.ReflectionHelper;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
@@ -16,7 +15,10 @@ import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
 
+import java.lang.reflect.Field;
+
 public class Velocity extends Module {
+    private final KillAura killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
     public boolean receivedKnockBack;
     public boolean attacked;
 
@@ -30,8 +32,10 @@ public class Velocity extends Module {
         this.receivedKnockBack = this.attacked = false;
     }
 
-    @EventPriority
-    public void onUpdate(LivingUpdateEvent event) {
+    @EventTarget
+    public void onUpdate(MotionUpdateEvent event) {
+        if (mc.player == null || mc.getConnection() == null) return;
+
         if (mc.player.hurtTime == 0) {
             this.receivedKnockBack = this.attacked = false;
         }
@@ -41,7 +45,7 @@ public class Velocity extends Module {
             Field sprintingField = ReflectionHelper.findField(mc.player.getClass(), "f_108603_", "wasSprinting");
 
             try {
-                sprinting = sprintingField.getBoolean(mc.player);
+                sprinting = sprintingField.getBoolean(mc.player.isSprinting());
             } catch (Exception var5) {
                 var5.printStackTrace();
             }
@@ -51,7 +55,7 @@ public class Velocity extends Module {
             }
 
             for (int i = 0; i < 5; i++) {
-                mc.getConnection().getConnection().send(ServerboundInteractPacket.createAttackPacket(KillAura.getTarget(), mc.player.isShiftKeyDown()));
+                mc.getConnection().getConnection().send(ServerboundInteractPacket.createAttackPacket(killAura.getTarget(), mc.player.isShiftKeyDown()));
                 mc.getConnection().getConnection().send(new ServerboundSwingPacket(InteractionHand.MAIN_HAND));
             }
 
@@ -65,12 +69,12 @@ public class Velocity extends Module {
         }
     }
 
-    @EventPriority
+    @EventTarget
     public void onPacket(PacketEvent event) {
         if (mc.player != null
                 && event.getPacket() instanceof ClientboundSetEntityMotionPacket packet
                 && packet.getId() == mc.player.getId()
-                && KillAura.getTarget() != null) {
+                && killAura.getTarget() != null) {
             this.attacked = false;
             this.receivedKnockBack = true;
         }

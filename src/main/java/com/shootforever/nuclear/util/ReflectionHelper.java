@@ -1,9 +1,9 @@
-package com.shootforever.nuclear.util.helper;
+package com.shootforever.nuclear.util;
 
+import java.io.Serial;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import com.shootforever.nuclear.util.unsafe.UnsafeUtils;
 import sun.misc.Unsafe;
 
 public class ReflectionHelper {
@@ -17,7 +17,7 @@ public class ReflectionHelper {
                         try {
                             Field f = currentClass.getDeclaredField(fieldName);
                             f.setAccessible(true);
-                            UnsafeUtils.putInt(f, (long)Unsafe.ARRAY_BOOLEAN_BASE_OFFSET, f.getModifiers() & -17);
+                            UnsafeUtil.putInt(f, Unsafe.ARRAY_BOOLEAN_BASE_OFFSET, f.getModifiers() & -17);
                             return f;
                         } catch (Exception var9) {
                             failed = var9;
@@ -43,6 +43,7 @@ public class ReflectionHelper {
                         try {
                             m = currentClass.getDeclaredMethod(obfName, parameterTypes);
                         } catch (NoSuchMethodException var8) {
+                            failed = var8;
                         }
                     }
 
@@ -52,7 +53,7 @@ public class ReflectionHelper {
 
                     if (m != null) {
                         m.setAccessible(true);
-                        UnsafeUtils.putInt(m, (long)Unsafe.ARRAY_BOOLEAN_BASE_OFFSET, m.getModifiers() & -17);
+                        UnsafeUtil.putInt(m, Unsafe.ARRAY_BOOLEAN_BASE_OFFSET, m.getModifiers() & -17);
                         return m;
                     }
                 } catch (Exception var9) {
@@ -67,6 +68,7 @@ public class ReflectionHelper {
     }
 
     private static class UnableToFindFieldException extends RuntimeException {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public UnableToFindFieldException(Exception e) {
@@ -75,6 +77,7 @@ public class ReflectionHelper {
     }
 
     private static class UnableToFindMethodException extends RuntimeException {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         public UnableToFindMethodException(Exception e) {

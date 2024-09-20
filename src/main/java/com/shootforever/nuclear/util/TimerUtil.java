@@ -1,9 +1,9 @@
 package com.shootforever.nuclear.util;
 
-public class TimerUtils {
+public class TimerUtil {
     public long lastMS = System.currentTimeMillis();
 
-    public TimerUtils() {
+    public TimerUtil() {
         this.reset();
     }
 
@@ -32,7 +32,7 @@ public class TimerUtils {
     }
 
     public boolean passedS(double s) {
-        return this.getMs(System.nanoTime() - this.lastMS) >= (long)(s * 1000.0);
+        return this.getMs(System.nanoTime() - this.lastMS) >= (long) (s * 1000.0);
     }
 
     public boolean passedMs(long ms) {
@@ -44,7 +44,7 @@ public class TimerUtils {
     }
 
     public boolean hasTimeElapsed(double time) {
-        return this.hasTimeElapsed((long)time);
+        return this.hasTimeElapsed((long) time);
     }
 
     public long getTime() {
