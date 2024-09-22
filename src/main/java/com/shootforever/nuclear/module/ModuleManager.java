@@ -8,12 +8,14 @@ import com.shootforever.nuclear.module.modules.misc.*;
 import com.shootforever.nuclear.module.modules.movement.*;
 import com.shootforever.nuclear.module.modules.render.*;
 import com.shootforever.nuclear.module.modules.player.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleManager {
-    private final List<Module> modules = new ArrayList<>();
+    private final List<@NotNull Module> modules = new ArrayList<>();
 
     public ModuleManager() {
         registerModules(
@@ -51,17 +53,17 @@ public class ModuleManager {
         }
     }
 
-    private void registerModules(Module... modules) {
+    private void registerModules(@NotNull Module @NotNull ... modules) {
         for (Module module : modules) {
             registerModule(module);
         }
     }
 
-    private void registerModule(Module module) {
+    private void registerModule(@NotNull Module module) {
         modules.add(module);
     }
 
-    public Module getModule(String name) {
+    public @Nullable Module getModule(@NotNull String name) {
         for (Module module : modules) {
             if (module.getName().equalsIgnoreCase(name)) {
                 return module;

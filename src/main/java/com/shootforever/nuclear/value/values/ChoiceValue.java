@@ -2,6 +2,7 @@ package com.shootforever.nuclear.value.values;
 
 import com.shootforever.nuclear.module.Module;
 import com.shootforever.nuclear.value.Value;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public class ChoiceValue extends Value<String> {
     private final List<String> choices;
 
-    public ChoiceValue(Module module, String name, String choice, List<String> choices) {
+    public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices) {
         super(module, name, choice);
         this.choices = new ArrayList<>(choices);
     }
@@ -18,7 +19,7 @@ public class ChoiceValue extends Value<String> {
         return new ArrayList<>(choices);
     }
 
-    public boolean isChoice(String name) {
+    public boolean isChoice(@NotNull String name) {
         for (String choice : choices) {
             if (choice.equalsIgnoreCase(name)) {
                 return true;

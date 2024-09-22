@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.classes;
 
 public class Vector3d {
     public double x;
@@ -12,51 +12,51 @@ public class Vector3d {
     }
 
     public Vector3d add(double x, double y, double z) {
-        return new Vector3d(this.x + x, this.y + y, this.z + z);
+        return new Vector3d(x + x, y + y, z + z);
     }
 
     public Vector3d add(Vector3d vector) {
-        return this.add(vector.x, vector.y, vector.z);
+        return add(vector.x, vector.y, vector.z);
     }
 
     public Vector3d subtract(double x, double y, double z) {
-        return this.add(-x, -y, -z);
+        return add(-x, -y, -z);
     }
 
     public Vector3d subtract(Vector3d vector) {
-        return this.add(-vector.x, -vector.y, -vector.z);
+        return add(-vector.x, -vector.y, -vector.z);
     }
 
     public double length() {
-        return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+        return Math.sqrt(x * x + y * y + z * z);
     }
 
     public double getX() {
-        return this.x;
+        return x;
     }
 
     public double getY() {
-        return this.y;
+        return y;
     }
 
     public double getZ() {
-        return this.z;
+        return z;
     }
 
     public Vector3d multiply(double v) {
-        return new Vector3d(this.x * v, this.y * v, this.z * v);
+        return new Vector3d(x * v, y * v, z * v);
     }
 
     public double distance(Vector3d vector3d) {
-        return Math.sqrt(Math.pow(vector3d.x - this.x, 2.0) + Math.pow(vector3d.y - this.y, 2.0) + Math.pow(vector3d.z - this.z, 2.0));
+        return Math.sqrt(Math.pow(vector3d.x - x, 2.0) + Math.pow(vector3d.y - y, 2.0) + Math.pow(vector3d.z - z, 2.0));
     }
 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Vector3d vector
-                && Math.floor(this.x) == Math.floor(vector.x)
-                && Math.floor(this.y) == Math.floor(vector.y)
-                && Math.floor(this.z) == Math.floor(vector.z);
+                && Math.floor(x) == Math.floor(vector.x)
+                && Math.floor(y) == Math.floor(vector.y)
+                && Math.floor(z) == Math.floor(vector.z);
     }
 
 

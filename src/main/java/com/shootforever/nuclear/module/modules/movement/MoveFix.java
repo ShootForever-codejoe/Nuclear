@@ -14,7 +14,7 @@ public class MoveFix extends Module {
     private boolean needUpdate;
 
     public MoveFix() {
-        super("MoveFix", Category.Movement);
+        super("MoveFix", Category.MOVEMENT);
     }
 
     @EventTarget

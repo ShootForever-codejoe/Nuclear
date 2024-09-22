@@ -4,26 +4,36 @@ import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.commands.*;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.ChatEvent;
-import com.shootforever.nuclear.util.NotifyUtil;
+import com.shootforever.nuclear.util.functions.NotifyUtil;
 import net.minecraft.ChatFormatting;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class CommandManager {
-    private final List<Command> commands = new ArrayList<>();
+    private final List<@NotNull Command> commands = new ArrayList<>();
 
     public CommandManager() {
         Nuclear.getInstance().getEventManager().register(this);
 
-        registerCommand(new BindCommand());
-        registerCommand(new EnabledCommand());
-        registerCommand(new BindsCommand());
-        registerCommand(new ValueCommand());
+        registerCommands(
+                new BindCommand(),
+                new EnabledCommand(),
+                new BindsCommand(),
+                new ValueCommand()
+        );
     }
 
-    private void registerCommand(Command command) {
+    private void registerCommands(@NotNull Command @NotNull ... commands) {
+        for (Command command : commands) {
+            registerCommand(command);
+        }
+    }
+
+    private void registerCommand(@NotNull Command command) {
         commands.add(command);
     }
 
@@ -42,7 +52,7 @@ public class CommandManager {
         event.setCancelled(true);
     }
 
-    public Command getCommand(String name) {
+    public @Nullable Command getCommand(@NotNull String name) {
         for (Command command : commands) {
             if (command.getName().equalsIgnoreCase(name)) {
                 return command;

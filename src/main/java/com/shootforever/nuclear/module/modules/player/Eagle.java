@@ -4,7 +4,7 @@ import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.NotifyUtil;
+import com.shootforever.nuclear.util.functions.NotifyUtil;
 import com.shootforever.nuclear.value.values.BooleanValue;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,7 @@ public class Eagle extends Module {
     private final BooleanValue autoBuild = new BooleanValue(this, "AutoBuild", true);
 
     public Eagle() {
-        super("Eagle", Category.Player);
+        super("Eagle", Category.PLAYER);
     }
 
     private int test = 0;
@@ -34,7 +34,7 @@ public class Eagle extends Module {
             KeyMapping.set(mc.options.keyShift.getKey(), true);
 
             if (mc.player.getMainHandItem().getItem() instanceof BlockItem
-                    || mc.player.getOffhandItem().getItem() instanceof BlockItem && this.autoBuild.getValue()) {
+                    || mc.player.getOffhandItem().getItem() instanceof BlockItem && autoBuild.getValue()) {
                 BlockHitResult hitResult = (BlockHitResult) mc.hitResult;
                 if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
                     BlockPos blockPos = hitResult.getBlockPos().relative(hitResult.getDirection());

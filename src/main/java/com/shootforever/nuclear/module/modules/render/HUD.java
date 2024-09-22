@@ -18,12 +18,12 @@ public class HUD extends Module {
     private final NumberValue rowledge = new NumberValue(this, "Rowledge", 12f, 0f, 30f, 0.1f);
 
     public HUD() {
-        super("HUD", Category.Render);
+        super("HUD", Category.RENDER);
     }
 
     @EventTarget
     public void onRender(Render2DEvent event) {
-        mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + Nuclear.name + " " + Nuclear.version, 4, y.getValue(), -1);
+        mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + Nuclear.CLIENT_NAME + " " + Nuclear.VERSION, 4, y.getValue(), -1);
         int module_n = 0;
         for (Module module : Nuclear.getInstance().getModuleManager().getModules()) {
             if (module.isEnabled()) {

@@ -1,11 +1,15 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.functions;
 
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 
-public class UnsafeUtil {
+public final class UnsafeUtil {
     private static final Unsafe unsafe;
+
+    private UnsafeUtil() {
+        throw new AssertionError();
+    }
 
     private static Unsafe getUnsafeInstance() throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException {
         Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");

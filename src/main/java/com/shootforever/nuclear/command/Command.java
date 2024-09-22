@@ -1,15 +1,17 @@
 package com.shootforever.nuclear.command;
 
-public abstract class Command {
-    protected final String name;
+import org.jetbrains.annotations.NotNull;
 
-    protected Command(String name) {
+public abstract class Command {
+    protected final @NotNull String name;
+
+    protected Command(@NotNull String name) {
         this.name = name;
     }
 
-    public String getName() {
+    public @NotNull String getName() {
         return name;
     }
 
-    public abstract void execute(String[] args);
+    public abstract void execute(@NotNull String @NotNull [] args);
 }

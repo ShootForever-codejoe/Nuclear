@@ -5,9 +5,9 @@ import com.shootforever.nuclear.event.events.GameTickEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.value.values.BooleanValue;
 import com.shootforever.nuclear.value.values.NumberValue;
-import com.shootforever.nuclear.util.RotationUtil;
-import com.shootforever.nuclear.util.TimerUtil;
-import com.shootforever.nuclear.util.EntityUtil;
+import com.shootforever.nuclear.util.functions.RotationUtil;
+import com.shootforever.nuclear.util.classes.Timer;
+import com.shootforever.nuclear.util.functions.EntityUtil;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -30,21 +30,21 @@ public class KillAura extends Module {
     
     private LivingEntity target;
     private final List<LivingEntity> targets = new ArrayList<>();
-    private final TimerUtil timer = new TimerUtil();
+    private final Timer timer = new Timer();
 
     public KillAura() {
-        super("KillAura", Category.Combat);
+        super("KillAura", Category.COMBAT);
     }
 
     @Override
     protected void onEnable() {
-        this.targets.clear();
+        targets.clear();
         target = null;
     }
 
     @Override
     protected void onDisable() {
-        this.targets.clear();
+        targets.clear();
         target = null;
     }
 
@@ -56,7 +56,7 @@ public class KillAura extends Module {
 
         for (Entity entity : mc.level.entitiesForRendering()) {
             if (entity instanceof LivingEntity livingEntity) {
-                if (this.filter(livingEntity)) {
+                if (filter(livingEntity)) {
                     targets.add(livingEntity);
                 }
             }
@@ -79,24 +79,24 @@ public class KillAura extends Module {
     public void onMotion(GameTickEvent event) {
         if (mc.getConnection() == null || mc.player == null) return;
 
-        if (event.getSide() == Event.Side.PRE && target != null && this.timer.delay(800 / this.cps.getValue().intValue())) {
+        if (event.getSide() == Event.Side.PRE && target != null && timer.delay(800 / cps.getValue().intValue())) {
             mc.getConnection().send(ServerboundInteractPacket.createAttackPacket(target, mc.player.isShiftKeyDown()));
             mc.player.swing(InteractionHand.MAIN_HAND);
-            this.timer.reset();
+            timer.reset();
         }
     }
 
     public boolean filter(LivingEntity entity) {
         if (mc.player == null) return false;
 
-        if (RotationUtil.getDistanceToEntityBox(entity) > this.range.getValue()
+        if (RotationUtil.getDistanceToEntityBox(entity) > range.getValue()
                 || !EntityUtil.isSelected(
                     entity,
-                    this.players.getValue(),
-                    this.mobs.getValue(),
-                    this.animals.getValue(),
-                    this.dead.getValue(),
-                    this.invisible.getValue(),
+                    players.getValue(),
+                    mobs.getValue(),
+                    animals.getValue(),
+                    dead.getValue(),
+                    invisible.getValue(),
                     true
                 )) {
             return false;
@@ -110,6 +110,6 @@ public class KillAura extends Module {
     }
 
     public List<LivingEntity> getTargets() {
-        return this.targets;
+        return targets;
     }
 }

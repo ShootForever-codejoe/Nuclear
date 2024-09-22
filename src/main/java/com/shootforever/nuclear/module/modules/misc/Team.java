@@ -13,7 +13,7 @@ public class Team extends Module {
     private final BooleanValue armorColor = new BooleanValue(this, "ArmorColor", true);
 
     public Team() {
-        super("Team", Category.Misc);
+        super("Team", Category.MISC);
     }
 
     public boolean isSameTeam(LivingEntity entity) {

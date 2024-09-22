@@ -46,7 +46,7 @@ public class MotionUpdateEvent extends Event {
 
     public void setYaw(float yaw) {
         this.yaw = yaw;
-        this.modified = true;
+        modified = true;
     }
 
     public float getPitch() {

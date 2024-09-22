@@ -5,6 +5,6 @@ import com.shootforever.nuclear.module.Module;
 
 public class IRC extends Module {
     public IRC() {
-        super("IRC", Category.Misc);
+        super("IRC", Category.MISC);
     }
 }

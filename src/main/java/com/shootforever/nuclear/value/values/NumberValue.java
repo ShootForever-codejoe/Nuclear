@@ -2,6 +2,7 @@ package com.shootforever.nuclear.value.values;
 
 import com.shootforever.nuclear.module.Module;
 import com.shootforever.nuclear.value.Value;
+import org.jetbrains.annotations.NotNull;
 
 public class NumberValue extends Value<Float> {
     private final float min;
@@ -9,7 +10,7 @@ public class NumberValue extends Value<Float> {
     private final float step;
     private final String suffix;
 
-    public NumberValue(Module module, String name, float value, float min, float max, float step, String suffix) {
+    public NumberValue(@NotNull Module module, @NotNull String name, float value, float min, float max, float step, String suffix) {
         super(module, name, value);
         this.min = min;
         this.max = max;
@@ -17,12 +18,12 @@ public class NumberValue extends Value<Float> {
         this.suffix = suffix;
     }
 
-    public NumberValue(Module module, String name, float value, float min, float max, float step) {
+    public NumberValue(@NotNull Module module, @NotNull String name, float value, float min, float max, float step) {
         super(module, name, value);
         this.min = min;
         this.max = max;
         this.step = step;
-        this.suffix = null;
+        suffix = null;
     }
 
     public float getMin() {

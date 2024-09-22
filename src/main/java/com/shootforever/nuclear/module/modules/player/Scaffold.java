@@ -5,6 +5,6 @@ import com.shootforever.nuclear.module.Module;
 
 public class Scaffold extends Module {
     public Scaffold() {
-        super("Scaffold", Category.Player);
+        super("Scaffold", Category.PLAYER);
     }
 }

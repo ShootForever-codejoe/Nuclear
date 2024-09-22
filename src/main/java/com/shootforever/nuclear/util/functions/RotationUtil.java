@@ -1,12 +1,17 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
+import com.shootforever.nuclear.util.classes.Vector3d;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class RotationUtil {
+public final class RotationUtil {
+    private RotationUtil() {
+        throw new AssertionError();
+    }
+
     public static double getDistanceToEntityBox(Entity target) {
         if (Nuclear.mc.player == null) return 0;
 

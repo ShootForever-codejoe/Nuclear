@@ -5,6 +5,6 @@ import com.shootforever.nuclear.module.Module;
 
 public class ClickGUI extends Module {
     public ClickGUI() {
-        super("ClickGUI", Category.Render);
+        super("ClickGUI", Category.RENDER);
     }
 }

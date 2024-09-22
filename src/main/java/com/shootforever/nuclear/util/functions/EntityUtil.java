@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.module.modules.misc.Team;
@@ -17,9 +17,14 @@ import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public final class EntityUtil {
-    private static final Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
+    private static final @NotNull Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
+
+    private EntityUtil() {
+        throw new AssertionError();
+    }
 
     public static boolean isSelected(
             Entity entity, boolean targetPlayer, boolean targetMobs, boolean targetAnimals, boolean targetDead, boolean targetInvisible, boolean canAttackCheck

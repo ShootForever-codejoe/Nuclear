@@ -13,10 +13,10 @@ import java.nio.file.Paths;
 
 @Mod("nuclear")
 public class Nuclear {
-    public static final String name = "Nuclear";
-    public static final String version = "1.0";
+    public static final String CLIENT_NAME = "Nuclear";
+    public static final String VERSION = "1.0";
     public static final Minecraft mc = Minecraft.getInstance();
-    public static final Path dataDir = Paths.get("%appdata%\\Nuclear");
+    public static final Path DATA_DIR = Paths.get("%appdata%\\Nuclear");
 
     private static Nuclear instance;
     private final EventManager eventManager;
@@ -25,7 +25,7 @@ public class Nuclear {
 
     static {
         try {
-            Files.createDirectories(dataDir);
+            Files.createDirectories(DATA_DIR);
         } catch (IOException e) {
             e.printStackTrace();
         }

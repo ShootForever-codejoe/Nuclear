@@ -1,5 +1,7 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.functions;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.lang.reflect.Field;
@@ -7,7 +9,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KeyboardUtil {
+public final class KeyboardUtil {
     private static final Map<String, Integer> keyMap = new HashMap<>();
 
     static {
@@ -24,7 +26,11 @@ public class KeyboardUtil {
         }
     }
 
-    public static String getKeyName(int number) {
+    private KeyboardUtil() {
+        throw new AssertionError();
+    }
+
+    public static @Nullable String getKeyName(int number) {
         for (String key : keyMap.keySet()) {
             if (number == keyMap.get(key)) {
                 return key;
@@ -33,11 +39,12 @@ public class KeyboardUtil {
         return null;
     }
 
-    public static Integer getKeyNumber(String name) {
+    public static Integer getKeyNumber(@NotNull String name) {
         for (String keyName : keyMap.keySet()) {
             name = name.replaceAll("_", "");
             if (name.equalsIgnoreCase(keyName.replaceAll("_", ""))
-                    || ((keyName.startsWith("LEFT_") || keyName.startsWith("RIGHT_")) && name.equalsIgnoreCase(keyName.replaceAll("LEFT_", "L").replaceAll("RIGHT_", "R").replaceAll("_", "")))) {
+                    || ((keyName.startsWith("LEFT_") || keyName.startsWith("RIGHT_"))
+                    && name.equalsIgnoreCase(keyName.replaceAll("LEFT_", "L").replaceAll("RIGHT_", "R").replaceAll("_", "")))) {
                 return keyMap.get(keyName);
             }
         }

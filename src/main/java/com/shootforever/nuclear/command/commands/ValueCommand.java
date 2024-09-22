@@ -3,13 +3,14 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.ConfigUtil;
-import com.shootforever.nuclear.util.NotifyUtil;
+import com.shootforever.nuclear.util.functions.ConfigUtil;
+import com.shootforever.nuclear.util.functions.NotifyUtil;
 import com.shootforever.nuclear.value.Value;
 import com.shootforever.nuclear.value.values.BooleanValue;
 import com.shootforever.nuclear.value.values.ChoiceValue;
 import com.shootforever.nuclear.value.values.NumberValue;
 import net.minecraft.ChatFormatting;
+import org.jetbrains.annotations.NotNull;
 
 public class ValueCommand extends Command {
     public ValueCommand() {
@@ -17,7 +18,7 @@ public class ValueCommand extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(@NotNull String @NotNull [] args) {
         if (args.length != 3) {
             NotifyUtil.notifyAsMessage(ChatFormatting.RED + "用法: .value <module> <value_name> <value>");
             return;

@@ -36,7 +36,7 @@ public class NoSlow extends Module {
     private boolean keyboardInputCancelled = false;
 
     public NoSlow() {
-        super("NoSlow", Category.Movement);
+        super("NoSlow", Category.MOVEMENT);
     }
 
     @Override

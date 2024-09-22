@@ -8,7 +8,7 @@ import net.minecraft.client.KeyMapping;
 
 public class Sprint extends Module {
     public Sprint() {
-        super("Sprint", Category.Movement);
+        super("Sprint", Category.MOVEMENT);
     }
 
     @EventTarget

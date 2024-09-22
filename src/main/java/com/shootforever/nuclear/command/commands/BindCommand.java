@@ -3,9 +3,10 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.KeyboardUtil;
-import com.shootforever.nuclear.util.NotifyUtil;
+import com.shootforever.nuclear.util.functions.KeyboardUtil;
+import com.shootforever.nuclear.util.functions.NotifyUtil;
 import net.minecraft.ChatFormatting;
+import org.jetbrains.annotations.NotNull;
 
 public class BindCommand extends Command {
     public BindCommand() {
@@ -13,7 +14,7 @@ public class BindCommand extends Command {
     }
 
     @Override
-    public void execute(String[] args) {
+    public void execute(@NotNull String @NotNull [] args) {
         if (args.length != 2) {
             NotifyUtil.notifyAsMessage(ChatFormatting.RED + "用法: .bind <module> <key>");
             return;

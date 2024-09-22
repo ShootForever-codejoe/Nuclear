@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util;
+package com.shootforever.nuclear.util.functions;
 
 import java.io.Serial;
 import java.lang.reflect.Field;
@@ -6,7 +6,11 @@ import java.lang.reflect.Method;
 
 import sun.misc.Unsafe;
 
-public class ReflectionHelper {
+public final class ReflectionUtil {
+    private ReflectionUtil() {
+        throw new AssertionError();
+    }
+
     public static Field findField(Class<?> clazz, String... fieldNames) {
         if (clazz != null && fieldNames != null && fieldNames.length != 0) {
             Exception failed = null;
