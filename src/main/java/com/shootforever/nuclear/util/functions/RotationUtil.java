@@ -6,6 +6,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public final class RotationUtil {
     private RotationUtil() {
@@ -23,14 +25,15 @@ public final class RotationUtil {
         return Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
     }
 
-    private static Vec3 getNearestPointBB(Vec3 point, AABB box) {
+    @Contract("_, _ -> new")
+    private static @NotNull Vec3 getNearestPointBB(@NotNull Vec3 point, @NotNull AABB box) {
         double x = Math.max(box.minX, Math.min(point.x, box.maxX));
         double y = Math.max(box.minY, Math.min(point.y, box.maxY));
         double z = Math.max(box.minZ, Math.min(point.z, box.maxZ));
         return new Vec3(x, y, z);
     }
 
-    public static float[] getRotationFromEyeToPoint(Vector3d point3d) {
+    public static float @NotNull [] getRotationFromEyeToPoint(Vector3d point3d) {
         if (Nuclear.mc.player != null) {
             return getRotation(new Vector3d(Nuclear.mc.player.getX(), Nuclear.mc.player.getBoundingBox().minY + (double) Nuclear.mc.player.getEyeHeight(), Nuclear.mc.player.getZ()), point3d);
         } else {
@@ -38,7 +41,8 @@ public final class RotationUtil {
         }
     }
 
-    public static float[] getRotation(Vector3d from, Vector3d to) {
+    @Contract("_, _ -> new")
+    public static float @NotNull [] getRotation(@NotNull Vector3d from, @NotNull Vector3d to) {
         double x = to.getX() - from.getX();
         double y = to.getY() - from.getY();
         double z = to.getZ() - from.getZ();
@@ -48,7 +52,7 @@ public final class RotationUtil {
         return new float[]{yaw, Math.min(Math.max(pitch, -90f), 90f)};
     }
 
-    public static float[] getSimpleRotations(LivingEntity target) {
+    public static float @NotNull [] getSimpleRotations(LivingEntity target) {
         if (Nuclear.mc.player == null) return new float[]{0, 0};
 
         double yDist = target.getY() - Nuclear.mc.player.getY();

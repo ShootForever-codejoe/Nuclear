@@ -23,7 +23,8 @@ public class CommandManager {
                 new BindCommand(),
                 new EnabledCommand(),
                 new BindsCommand(),
-                new ValueCommand()
+                new ValueCommand(),
+                new ConfigCommand()
         );
     }
 

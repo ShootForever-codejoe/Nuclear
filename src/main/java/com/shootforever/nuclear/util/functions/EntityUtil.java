@@ -17,11 +17,8 @@ import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import org.jetbrains.annotations.NotNull;
 
 public final class EntityUtil {
-    private static final @NotNull Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
-
     private EntityUtil() {
         throw new AssertionError();
     }
@@ -36,6 +33,8 @@ public final class EntityUtil {
                 } else if (entityPlayer.isSpectator()) {
                     return false;
                 } else {
+                    Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
+                    if (team == null) return false;
                     return !team.isEnabled() || !team.isSameTeam(entityPlayer);
                 }
             } else {

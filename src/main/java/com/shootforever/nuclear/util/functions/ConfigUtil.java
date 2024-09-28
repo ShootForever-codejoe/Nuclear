@@ -11,14 +11,16 @@ import com.shootforever.nuclear.value.values.ChoiceValue;
 import com.shootforever.nuclear.value.values.NumberValue;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 public final class ConfigUtil {
-    public static String currentConfig = null;
+    private static @Nullable String currentConfig = null;
     public static final Path CONFIG_DIR = Nuclear.DATA_DIR.resolve("configs");
     public static final Path CURRENT_CONFIG_PATH = Nuclear.DATA_DIR.resolve("currentConfig");
 
@@ -29,10 +31,12 @@ public final class ConfigUtil {
             e.printStackTrace();
         }
 
-        getCurrentConfig();
+        loadCurrentConfig();
 
         if (currentConfig != null) {
-            if (!loadConfig(currentConfig)) {
+            try {
+                loadConfig(currentConfig);
+            } catch (IOException e) {
                 NotifyUtil.notifyAsMessage(ChatFormatting.RED + "读取配置" + currentConfig + "失败");
             }
         }
@@ -42,27 +46,30 @@ public final class ConfigUtil {
         throw new AssertionError();
     }
 
-    private static void getCurrentConfig() {
+    private static void loadCurrentConfig() {
         try {
             currentConfig = Files.readAllLines(CURRENT_CONFIG_PATH).get(0);
         } catch (IOException e) {
             e.printStackTrace();
+            currentConfig = null;
         }
     }
 
-    public static boolean loadConfig(@NotNull String name) {
+    public static void loadConfig(@NotNull String name) throws IOException {
         Path configPath = CONFIG_DIR.resolve(name + ".json");
         if (!Files.exists(configPath)) {
-            return false;
+            throw new FileNotFoundException(configPath.toString());
+        }
+
+        currentConfig = name;
+        try {
+            Files.write(CURRENT_CONFIG_PATH, name.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         JsonObject config;
-        try {
-            config = JsonParser.parseString(String.join("\n", Files.readAllLines(configPath))).getAsJsonObject();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        config = JsonParser.parseString(String.join("", Files.readAllLines(configPath))).getAsJsonObject();
 
         for (String moduleName : config.keySet()) {
             Module module = Nuclear.getInstance().getModuleManager().getModule(moduleName);
@@ -92,14 +99,17 @@ public final class ConfigUtil {
                 }
             }
         }
-
-        return true;
     }
 
-    public static boolean saveConfig(@NotNull String name) {
+    public static void loadConfig() throws IOException {
+        if (currentConfig == null) throw new IOException("Current config is null");
+        loadConfig(currentConfig);
+    }
+
+    public static void saveConfig(@NotNull String name) throws IOException {
         currentConfig = name;
         try {
-            Files.write(CURRENT_CONFIG_PATH, name.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
+            Files.write(CURRENT_CONFIG_PATH, name.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,17 +132,15 @@ public final class ConfigUtil {
         }
 
         Path configPath = CONFIG_DIR.resolve(name + ".json");
-        try {
-            Files.write(configPath, config.toString().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.WRITE);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        Files.write(configPath, config.toString().getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
-    public static boolean saveConfig() {
-        if (currentConfig == null) return false;
-        return saveConfig(currentConfig);
+    public static void saveConfig() throws IOException {
+        if (currentConfig == null) throw new IOException("Current config is null");
+        saveConfig(currentConfig);
+    }
+
+    public static @Nullable String getCurrentConfig() {
+        return currentConfig;
     }
 }

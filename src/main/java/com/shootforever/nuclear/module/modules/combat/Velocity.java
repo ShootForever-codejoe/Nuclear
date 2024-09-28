@@ -2,6 +2,7 @@ package com.shootforever.nuclear.module.modules.combat;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
+import com.shootforever.nuclear.event.events.LoadedEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
 import com.shootforever.nuclear.module.Category;
@@ -14,12 +15,11 @@ import net.minecraft.network.protocol.game.ServerboundSwingPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket.Action;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
 public class Velocity extends Module {
-    private final @NotNull KillAura killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
+    private KillAura killAura = null;
     public boolean receivedKnockBack;
     public boolean attacked;
 
@@ -33,8 +33,13 @@ public class Velocity extends Module {
     }
 
     @EventTarget
+    public void onLoaded(LoadedEvent event) {
+        killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
+    }
+
+    @EventTarget
     public void onUpdate(MotionUpdateEvent event) {
-        if (mc.player == null || mc.getConnection() == null) return;
+        if (mc.player == null || mc.getConnection() == null || killAura == null) return;
 
         if (mc.player.hurtTime == 0) {
             receivedKnockBack = attacked = false;
@@ -45,9 +50,13 @@ public class Velocity extends Module {
             Field sprintingField = ReflectionUtil.findField(mc.player.getClass(), "f_108603_", "wasSprinting");
 
             try {
-                sprinting = sprintingField.getBoolean(mc.player.isSprinting());
-            } catch (Exception var5) {
-                var5.printStackTrace();
+                if (sprintingField != null) {
+                    sprinting = sprintingField.getBoolean(mc.player.isSprinting());
+                } else {
+                    sprinting = mc.player.isSprinting();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             if (!sprinting) {
@@ -71,7 +80,7 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onPacket(PacketEvent event) {
-        if (mc.player != null
+        if (mc.player != null && killAura != null
                 && event.getPacket() instanceof ClientboundSetEntityMotionPacket packet
                 && packet.getId() == mc.player.getId()
                 && killAura.getTarget() != null) {

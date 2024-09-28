@@ -1,5 +1,7 @@
 package com.shootforever.nuclear.util.classes;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Vector3d {
     public double x;
     public double y;
@@ -15,7 +17,7 @@ public class Vector3d {
         return new Vector3d(x + x, y + y, z + z);
     }
 
-    public Vector3d add(Vector3d vector) {
+    public Vector3d add(@NotNull Vector3d vector) {
         return add(vector.x, vector.y, vector.z);
     }
 
@@ -23,7 +25,7 @@ public class Vector3d {
         return add(-x, -y, -z);
     }
 
-    public Vector3d subtract(Vector3d vector) {
+    public Vector3d subtract(@NotNull Vector3d vector) {
         return add(-vector.x, -vector.y, -vector.z);
     }
 
@@ -47,7 +49,7 @@ public class Vector3d {
         return new Vector3d(x * v, y * v, z * v);
     }
 
-    public double distance(Vector3d vector3d) {
+    public double distance(@NotNull Vector3d vector3d) {
         return Math.sqrt(Math.pow(vector3d.x - x, 2.0) + Math.pow(vector3d.y - y, 2.0) + Math.pow(vector3d.z - z, 2.0));
     }
 

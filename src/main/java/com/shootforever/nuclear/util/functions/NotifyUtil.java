@@ -10,7 +10,9 @@ public final class NotifyUtil {
         throw new AssertionError();
     }
 
-    public static void notifyAsMessage(@NotNull String content) {
-        Minecraft.getInstance().gui.getChat().addMessage(new TextComponent(ChatFormatting.GOLD + "[Nuclear] " + ChatFormatting.WHITE + content));
+    public static void notifyAsMessage(@NotNull String @NotNull ... contents) {
+        for (String content : contents) {
+            Minecraft.getInstance().gui.getChat().addMessage(new TextComponent(ChatFormatting.GOLD + "[Nuclear] " + ChatFormatting.WHITE + content));
+        }
     }
 }

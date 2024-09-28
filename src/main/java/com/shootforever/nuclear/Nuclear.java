@@ -2,6 +2,7 @@ package com.shootforever.nuclear;
 
 import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
+import com.shootforever.nuclear.event.events.LoadedEvent;
 import com.shootforever.nuclear.module.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
@@ -37,6 +38,8 @@ public class Nuclear {
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
+
+        eventManager.call(new LoadedEvent());
     }
 
 

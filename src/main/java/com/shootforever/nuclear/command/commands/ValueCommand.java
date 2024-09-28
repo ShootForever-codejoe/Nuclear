@@ -12,6 +12,8 @@ import com.shootforever.nuclear.value.values.NumberValue;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 public class ValueCommand extends Command {
     public ValueCommand() {
         super("value");
@@ -74,7 +76,9 @@ public class ValueCommand extends Command {
 
         NotifyUtil.notifyAsMessage("模块" + module.getName() + "的值" + value.getName() + "成功设置为" + value.getValue());
 
-        if (!ConfigUtil.saveConfig()) {
+        try {
+            ConfigUtil.saveConfig();
+        } catch (IOException e) {
             NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动保存配置失败");
         }
     }
