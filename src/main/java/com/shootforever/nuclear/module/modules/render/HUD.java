@@ -23,12 +23,12 @@ public class HUD extends Module {
 
     @EventTarget
     public void onRender(Render2DEvent event) {
-        mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + Nuclear.CLIENT_NAME + " " + Nuclear.VERSION, 4, y.getValue(), -1);
-        int module_n = 0;
+        mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + Nuclear.CLIENT_NAME + " " + Nuclear.CLIENT_VERSION, 4, y.getValue(), -1);
+        int moduleN = 0;
         for (Module module : Nuclear.getInstance().getModuleManager().getModules()) {
             if (module.isEnabled()) {
-                module_n ++;
-                mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + module.getName(), 4, y.getValue() + module_n * rowledge.getValue(), -1);
+                moduleN ++;
+                mc.font.drawShadow(new PoseStack(), ChatFormatting.getByName(color.getValue()) + module.getName(), 4, y.getValue() + moduleN * rowledge.getValue(), -1);
             }
         }
     }

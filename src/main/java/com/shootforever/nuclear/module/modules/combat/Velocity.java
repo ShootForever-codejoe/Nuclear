@@ -2,7 +2,6 @@ package com.shootforever.nuclear.module.modules.combat;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
-import com.shootforever.nuclear.event.events.LoadedEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
 import com.shootforever.nuclear.module.Category;
@@ -19,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import java.lang.reflect.Field;
 
 public class Velocity extends Module {
-    private KillAura killAura = null;
     public boolean receivedKnockBack;
     public boolean attacked;
 
@@ -33,12 +31,8 @@ public class Velocity extends Module {
     }
 
     @EventTarget
-    public void onLoaded(LoadedEvent event) {
-        killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
-    }
-
-    @EventTarget
     public void onUpdate(MotionUpdateEvent event) {
+        KillAura killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
         if (mc.player == null || mc.getConnection() == null || killAura == null) return;
 
         if (mc.player.hurtTime == 0) {
@@ -80,6 +74,7 @@ public class Velocity extends Module {
 
     @EventTarget
     public void onPacket(PacketEvent event) {
+        KillAura killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
         if (mc.player != null && killAura != null
                 && event.getPacket() instanceof ClientboundSetEntityMotionPacket packet
                 && packet.getId() == mc.player.getId()

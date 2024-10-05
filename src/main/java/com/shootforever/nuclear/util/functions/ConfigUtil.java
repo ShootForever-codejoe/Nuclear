@@ -24,7 +24,11 @@ public final class ConfigUtil {
     public static final Path CONFIG_DIR = Nuclear.DATA_DIR.resolve("configs");
     public static final Path CURRENT_CONFIG_PATH = Nuclear.DATA_DIR.resolve("currentConfig");
 
-    static {
+    private ConfigUtil() {
+        throw new AssertionError();
+    }
+
+    public static void init() {
         try {
             Files.createDirectories(CONFIG_DIR);
         } catch (IOException e) {
@@ -39,11 +43,15 @@ public final class ConfigUtil {
             } catch (IOException e) {
                 NotifyUtil.notifyAsMessage(ChatFormatting.RED + "读取配置" + currentConfig + "失败");
             }
+        } else if (Files.exists(CONFIG_DIR.resolve("default.json"))) {
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "配置default已存在，无法自动创建新配置");
+        } else {
+            try {
+                saveConfig("default");
+            } catch (IOException e) {
+                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动创建新配置default失败");
+            }
         }
-    }
-
-    private ConfigUtil() {
-        throw new AssertionError();
     }
 
     private static void loadCurrentConfig() {

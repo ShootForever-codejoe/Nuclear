@@ -1,6 +1,7 @@
 package com.shootforever.nuclear.value.values;
 
 import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.value.Hide;
 import com.shootforever.nuclear.value.Value;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,6 +10,11 @@ import java.util.List;
 
 public class ChoiceValue extends Value<String> {
     private final List<String> choices;
+
+    public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices, @NotNull Hide hide) {
+        super(module, name, choice, hide);
+        this.choices = new ArrayList<>(choices);
+    }
 
     public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices) {
         super(module, name, choice);

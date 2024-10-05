@@ -2,8 +2,8 @@ package com.shootforever.nuclear;
 
 import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
-import com.shootforever.nuclear.event.events.LoadedEvent;
 import com.shootforever.nuclear.module.ModuleManager;
+import com.shootforever.nuclear.util.functions.ConfigUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 
@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 @Mod("nuclear")
 public class Nuclear {
     public static final String CLIENT_NAME = "Nuclear";
-    public static final String VERSION = "1.0";
+    public static final String CLIENT_VERSION = "1.0";
     public static final Minecraft mc = Minecraft.getInstance();
     public static final Path DATA_DIR = Paths.get("%appdata%\\Nuclear");
 
@@ -24,22 +24,20 @@ public class Nuclear {
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
 
-    static {
+    public Nuclear() {
+        instance = this;
+
         try {
             Files.createDirectories(DATA_DIR);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public Nuclear() {
-        instance = this;
 
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
 
-        eventManager.call(new LoadedEvent());
+        ConfigUtil.init();
     }
 
 

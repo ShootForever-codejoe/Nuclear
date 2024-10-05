@@ -7,12 +7,22 @@ public abstract class Value<T> {
     protected final @NotNull Module module;
     protected final @NotNull String name;
     protected @NotNull T value;
+    protected final @NotNull Hide hide;
+
+    protected Value(@NotNull Module module, @NotNull String name, @NotNull T value, @NotNull Hide hide) {
+        this.module = module;
+        module.registerValue(this);
+        this.name = name;
+        this.value = value;
+        this.hide = hide;
+    }
 
     protected Value(@NotNull Module module, @NotNull String name, @NotNull T value) {
         this.module = module;
         module.registerValue(this);
         this.name = name;
         this.value = value;
+        this.hide = () -> false;
     }
 
     public @NotNull Module getModule() {
@@ -29,5 +39,9 @@ public abstract class Value<T> {
 
     public void setValue(@NotNull T value) {
         this.value = value;
+    }
+
+    public @NotNull Hide getHide() {
+        return hide;
     }
 }
