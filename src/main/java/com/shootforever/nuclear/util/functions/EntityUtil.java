@@ -1,7 +1,6 @@
 package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.module.modules.misc.IRC;
 import com.shootforever.nuclear.module.modules.misc.Team;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
@@ -18,8 +17,6 @@ import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.Objects;
 
 public final class EntityUtil {
     private EntityUtil() {
