@@ -6,7 +6,7 @@ import com.shootforever.nuclear.ui.clickgui.ClickGUIScreen;
 
 public class ClickGUI extends Module {
     public ClickGUI() {
-        super("ClickGUIScreen", Category.RENDER);
+        super("ClickGUI", Category.RENDER);
     }
 
     @Override

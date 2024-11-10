@@ -17,7 +17,7 @@ public class Team extends Module {
     }
 
     public boolean isSameTeam(LivingEntity entity) {
-        if (mc.player == null) return false;
+        if (mc.player == null || !isEnabled()) return false;
 
         if (armorColor.getValue() && entity instanceof Player entityPlayer) {
             ItemStack myHead = mc.player.getInventory().armor.get(3);

@@ -37,7 +37,7 @@ public class ModuleManager {
                 new Scaffold(),
 
                 // Misc
-                new IRC(),
+                //new IRC(),
                 new Team()
         );
 

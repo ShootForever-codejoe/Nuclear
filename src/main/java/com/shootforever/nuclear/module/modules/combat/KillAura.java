@@ -70,8 +70,7 @@ public class KillAura extends Module {
 
         if (target != null) {
             float[] rotations = RotationUtil.getSimpleRotations(target);
-            mc.player.setYRot(rotations[0]);
-            mc.player.setXRot(rotations[1]);
+            RotationUtil.setAngle(rotations[0], rotations[1]);
         }
     }
 

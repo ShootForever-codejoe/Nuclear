@@ -9,7 +9,6 @@ import com.shootforever.nuclear.value.Value;
 import com.shootforever.nuclear.value.values.BooleanValue;
 import com.shootforever.nuclear.value.values.ChoiceValue;
 import com.shootforever.nuclear.value.values.NumberValue;
-import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public final class ConfigUtil {
     private static @Nullable String currentConfig = null;
@@ -41,15 +42,13 @@ public final class ConfigUtil {
             try {
                 loadConfig(currentConfig);
             } catch (IOException e) {
-                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "读取配置" + currentConfig + "失败");
+                e.printStackTrace();
             }
-        } else if (Files.exists(CONFIG_DIR.resolve("default.json"))) {
-            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "配置default已存在，无法自动创建新配置");
         } else {
             try {
-                saveConfig("default");
+                saveConfig(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd__HH_mm_ss")));
             } catch (IOException e) {
-                NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动创建新配置default失败");
+                e.printStackTrace();
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
+import com.shootforever.nuclear.module.modules.movement.MoveFix;
 import com.shootforever.nuclear.util.classes.Vector3d;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -66,5 +67,15 @@ public final class RotationUtil {
         }
 
         return getRotationFromEyeToPoint(targetPos);
+    }
+
+    public static void setAngle(float yaw, float pitch) {
+        MoveFix moveFix = (MoveFix) Nuclear.getInstance().getModuleManager().getModule("MoveFix");
+        if (moveFix != null && moveFix.isEnabled()) {
+            moveFix.setAngle(yaw, pitch);
+        } else if (Nuclear.mc.player != null) {
+            Nuclear.mc.player.setYRot(yaw);
+            Nuclear.mc.player.setXRot(pitch);
+        }
     }
 }

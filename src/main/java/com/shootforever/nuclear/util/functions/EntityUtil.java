@@ -1,6 +1,7 @@
 package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
+import com.shootforever.nuclear.module.modules.misc.IRC;
 import com.shootforever.nuclear.module.modules.misc.Team;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.PlayerInfo;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.Objects;
+
 public final class EntityUtil {
     private EntityUtil() {
         throw new AssertionError();
@@ -34,8 +37,10 @@ public final class EntityUtil {
                     return false;
                 } else {
                     Team team = (Team) Nuclear.getInstance().getModuleManager().getModule("Team");
-                    if (team == null) return false;
-                    return !team.isEnabled() || !team.isSameTeam(entityPlayer);
+                    //IRC irc = (IRC) Nuclear.getInstance().getModuleManager().getModule("IRC");
+                    if (team == null /*|| irc == null*/) return true;
+                    return (!team.isEnabled() || !team.isSameTeam(entityPlayer))
+                            /*&& (!irc.isEnabled() || !Objects.requireNonNull(irc.getUsers()).contains(entityPlayer.getScoreboardName()))*/;
                 }
             } else {
                 return targetMobs && isMob(entity) || targetAnimals && isAnimal(entity);

@@ -17,12 +17,17 @@ public class Nuclear {
     public static final String CLIENT_NAME = "Nuclear";
     public static final String CLIENT_VERSION = "1.0";
     public static final Minecraft mc = Minecraft.getInstance();
-    public static final Path DATA_DIR = Paths.get("%appdata%\\Nuclear");
+    public static final Path DATA_DIR = Paths.get("Nuclear");
+
+    public static final String SERVER_IP = "https://120.77.14.12:12345";
+    public static final String SERVER_HOST = "120.77.14.12";
+    public static final String SERVER_PORT = "12345";
 
     private static Nuclear instance;
     private final EventManager eventManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
+    private boolean free = false;
 
     public Nuclear() {
         instance = this;
@@ -40,7 +45,6 @@ public class Nuclear {
         ConfigUtil.init();
     }
 
-
     public static Nuclear getInstance() {
         return instance;
     }
@@ -55,5 +59,13 @@ public class Nuclear {
 
     public CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
     }
 }
