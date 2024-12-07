@@ -27,6 +27,7 @@ public class KillAura extends Module {
     private final BooleanValue animals = new BooleanValue(this, "Animals", false);
     private final BooleanValue dead = new BooleanValue(this, "Dead", false);
     private final BooleanValue invisible = new BooleanValue(this, "Invisible", false);
+    private final BooleanValue silentRotation = new BooleanValue(this, "SilentRotation", true);
     
     private LivingEntity target;
     private final List<LivingEntity> targets = new ArrayList<>();
@@ -70,7 +71,12 @@ public class KillAura extends Module {
 
         if (target != null) {
             float[] rotations = RotationUtil.getSimpleRotations(target);
-            RotationUtil.setAngle(rotations[0], rotations[1]);
+            if (silentRotation.getValue()) {
+                RotationUtil.setAngleSilently(rotations[0], rotations[1]);
+            } else {
+                mc.player.setYRot(rotations[0]);
+                mc.player.setXRot(rotations[1]);
+            }
         }
     }
 

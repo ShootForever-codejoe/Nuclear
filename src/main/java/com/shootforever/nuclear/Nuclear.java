@@ -2,6 +2,7 @@ package com.shootforever.nuclear;
 
 import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
+import com.shootforever.nuclear.event.ListenerManager;
 import com.shootforever.nuclear.module.ModuleManager;
 import com.shootforever.nuclear.util.functions.ConfigUtil;
 import net.minecraft.client.Minecraft;
@@ -27,6 +28,7 @@ public class Nuclear {
     private final EventManager eventManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
+    private final ListenerManager listenerManager;
     private boolean free = false;
 
     public Nuclear() {
@@ -41,6 +43,7 @@ public class Nuclear {
         eventManager = new EventManager();
         moduleManager = new ModuleManager();
         commandManager = new CommandManager();
+        listenerManager = new ListenerManager();
 
         ConfigUtil.init();
     }
@@ -67,5 +70,9 @@ public class Nuclear {
 
     public void setFree(boolean free) {
         this.free = free;
+    }
+
+    public ListenerManager getListenerManager() {
+        return listenerManager;
     }
 }

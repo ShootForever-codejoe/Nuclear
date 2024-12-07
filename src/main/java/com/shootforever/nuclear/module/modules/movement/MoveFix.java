@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 
 public class MoveFix extends Module {
     private Float yaw, pitch;
-    private boolean needUpdate;
+    private boolean needUpdate = false;
 
     public MoveFix() {
         super("MoveFix", Category.MOVEMENT);
