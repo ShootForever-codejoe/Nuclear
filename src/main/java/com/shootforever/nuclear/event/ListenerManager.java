@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListenerManager {
-    private final List<Listener> listeners = new ArrayList<>();
+    private final List<@NotNull Listener> listeners = new ArrayList<>();
 
     public ListenerManager() {
         registerListeners(

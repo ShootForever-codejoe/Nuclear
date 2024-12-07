@@ -20,7 +20,6 @@ import com.google.gson.JsonParser;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.ChatEvent;
-import com.shootforever.nuclear.event.events.WorldChangeEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
 import com.shootforever.nuclear.util.functions.NotifyUtil;
@@ -94,7 +93,7 @@ public class IRC extends Module {
     }
 
     @EventTarget
-    public void onWorldChange(WorldChangeEvent event) {
+    public void on( event) {
         if (mc.player == null || session == null) return;
 
         JsonObject messageJson = new JsonObject();
@@ -135,7 +134,7 @@ public class IRC extends Module {
             }
 
             if (mc.getCurrentServer() != null) {
-                onWorldChange(new WorldChangeEvent(mc.getCurrentServer().ip));
+                on(new (mc.getCurrentServer().ip));
             }
         }
 

@@ -7,7 +7,7 @@ import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.event.events.StrafeEvent;
 
 public class RotationListener extends Listener {
-    private Float yaw, pitch;
+    private float yaw, pitch;
     private boolean needUpdate = false;
 
     public RotationListener() {
