@@ -1,7 +1,7 @@
-package com.shootforever.nuclear.event;
+package com.shootforever.nuclear.listener;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.event.listener.RotationListener;
+import com.shootforever.nuclear.listener.listeners.RotationListener;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

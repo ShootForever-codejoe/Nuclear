@@ -1,7 +1,7 @@
 package com.shootforever.nuclear.util.functions;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.event.listener.RotationListener;
+import com.shootforever.nuclear.listener.listeners.RotationListener;
 import com.shootforever.nuclear.module.modules.movement.MoveFix;
 import com.shootforever.nuclear.util.classes.Vector3d;
 import net.minecraft.world.entity.Entity;

@@ -2,7 +2,7 @@ package com.shootforever.nuclear;
 
 import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
-import com.shootforever.nuclear.event.ListenerManager;
+import com.shootforever.nuclear.listener.ListenerManager;
 import com.shootforever.nuclear.module.ModuleManager;
 import com.shootforever.nuclear.util.functions.ConfigUtil;
 import net.minecraft.client.Minecraft;

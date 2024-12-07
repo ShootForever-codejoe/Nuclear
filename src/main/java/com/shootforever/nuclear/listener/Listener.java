@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.event;
+package com.shootforever.nuclear.listener;
 
 import org.jetbrains.annotations.NotNull;
 

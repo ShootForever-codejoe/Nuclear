@@ -1,7 +1,7 @@
-package com.shootforever.nuclear.event.listener;
+package com.shootforever.nuclear.listener.listeners;
 
 import com.shootforever.nuclear.event.EventTarget;
-import com.shootforever.nuclear.event.Listener;
+import com.shootforever.nuclear.listener.Listener;
 import com.shootforever.nuclear.event.events.JumpEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.event.events.StrafeEvent;

@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.ChatEvent;
+import com.shootforever.nuclear.event.events.ServerConnectEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
 import com.shootforever.nuclear.util.functions.NotifyUtil;
@@ -93,7 +94,7 @@ public class IRC extends Module {
     }
 
     @EventTarget
-    public void on( event) {
+    public void onServerConnect(ServerConnectEvent event) {
         if (mc.player == null || session == null) return;
 
         JsonObject messageJson = new JsonObject();
@@ -106,7 +107,7 @@ public class IRC extends Module {
 
         messageJson = new JsonObject();
         messageJson.addProperty("func", "create_user");
-        messageJson.addProperty("server", event.getIp());
+        messageJson.addProperty("server", event.getAddress());
         messageJson.addProperty("name", mc.player.getScoreboardName());
         try {
             session.getBasicRemote().sendText(messageJson.toString());
@@ -134,7 +135,7 @@ public class IRC extends Module {
             }
 
             if (mc.getCurrentServer() != null) {
-                on(new (mc.getCurrentServer().ip));
+                onServerConnect(new ServerConnectEvent(mc.getCurrentServer().ip));
             }
         }
 
