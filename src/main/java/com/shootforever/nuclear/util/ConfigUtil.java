@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.functions;
+package com.shootforever.nuclear.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

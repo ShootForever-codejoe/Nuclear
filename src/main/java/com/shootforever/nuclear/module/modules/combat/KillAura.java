@@ -2,12 +2,11 @@ package com.shootforever.nuclear.module.modules.combat;
 
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.GameTickEvent;
-import com.shootforever.nuclear.event.events.MotionUpdateEvent;
 import com.shootforever.nuclear.value.values.BooleanValue;
 import com.shootforever.nuclear.value.values.NumberValue;
-import com.shootforever.nuclear.util.functions.RotationUtil;
-import com.shootforever.nuclear.util.classes.Timer;
-import com.shootforever.nuclear.util.functions.EntityUtil;
+import com.shootforever.nuclear.util.RotationUtil;
+import com.shootforever.nuclear.util.Timer;
+import com.shootforever.nuclear.util.EntityUtil;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +14,7 @@ import com.shootforever.nuclear.event.Event;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
 import net.minecraft.world.entity.LivingEntity;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,8 @@ public class KillAura extends Module {
     }
 
     @EventTarget
-    public void onUpdate(MotionUpdateEvent event) {
-        if (mc.level == null || mc.player == null) return;
+    public void onTick(GameTickEvent event) {
+        if (mc.level == null || mc.player == null || mc.getConnection() == null) return;
 
         List<LivingEntity> targets = new ArrayList<>();
 
@@ -78,11 +78,6 @@ public class KillAura extends Module {
                 mc.player.setXRot(rotations[1]);
             }
         }
-    }
-
-    @EventTarget
-    public void onMotion(GameTickEvent event) {
-        if (mc.getConnection() == null || mc.player == null) return;
 
         if (event.getSide() == Event.Side.PRE && target != null && timer.delay(800 / cps.getValue().intValue())) {
             mc.getConnection().send(ServerboundInteractPacket.createAttackPacket(target, mc.player.isShiftKeyDown()));
@@ -91,7 +86,7 @@ public class KillAura extends Module {
         }
     }
 
-    public boolean filter(LivingEntity entity) {
+    public boolean filter(@NotNull LivingEntity entity) {
         if (mc.player == null) return false;
 
         if (RotationUtil.getDistanceToEntityBox(entity) > range.getValue()

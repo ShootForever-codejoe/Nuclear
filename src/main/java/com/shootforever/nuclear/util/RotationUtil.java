@@ -1,9 +1,8 @@
-package com.shootforever.nuclear.util.functions;
+package com.shootforever.nuclear.util;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.listener.listeners.RotationListener;
 import com.shootforever.nuclear.module.modules.movement.MoveFix;
-import com.shootforever.nuclear.util.classes.Vector3d;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
@@ -35,19 +34,19 @@ public final class RotationUtil {
         return new Vec3(x, y, z);
     }
 
-    public static float @NotNull [] getRotationFromEyeToPoint(Vector3d point3d) {
+    public static float @NotNull [] getRotationFromEyeToPoint(Vec3 point3d) {
         if (Nuclear.mc.player != null) {
-            return getRotation(new Vector3d(Nuclear.mc.player.getX(), Nuclear.mc.player.getBoundingBox().minY + (double) Nuclear.mc.player.getEyeHeight(), Nuclear.mc.player.getZ()), point3d);
+            return getRotation(new Vec3(Nuclear.mc.player.getX(), Nuclear.mc.player.getBoundingBox().minY + (double) Nuclear.mc.player.getEyeHeight(), Nuclear.mc.player.getZ()), point3d);
         } else {
             return new float[]{0, 0};
         }
     }
 
     @Contract("_, _ -> new")
-    public static float @NotNull [] getRotation(@NotNull Vector3d from, @NotNull Vector3d to) {
-        double x = to.getX() - from.getX();
-        double y = to.getY() - from.getY();
-        double z = to.getZ() - from.getZ();
+    public static float @NotNull [] getRotation(@NotNull Vec3 from, @NotNull Vec3 to) {
+        double x = to.x - from.x;
+        double y = to.y - from.y;
+        double z = to.z - from.z;
         double sqrt = Math.sqrt(x * x + z * z);
         float yaw = (float) Math.toDegrees(Math.atan2(z, x)) - 90f;
         float pitch = (float) -Math.toDegrees(Math.atan2(y, sqrt));
@@ -58,13 +57,13 @@ public final class RotationUtil {
         if (Nuclear.mc.player == null) return new float[]{0, 0};
 
         double yDist = target.getY() - Nuclear.mc.player.getY();
-        Vector3d targetPos;
+        Vec3 targetPos;
         if (yDist >= 1.547) {
-            targetPos = new Vector3d(target.getX(), target.getY(), target.getZ());
+            targetPos = new Vec3(target.getX(), target.getY(), target.getZ());
         } else if (yDist <= -1.547) {
-            targetPos = new Vector3d(target.getX(), target.getY() + target.getEyeHeight(), target.getZ());
+            targetPos = new Vec3(target.getX(), target.getY() + target.getEyeHeight(), target.getZ());
         } else {
-            targetPos = new Vector3d(target.getX(), target.getY() + target.getEyeHeight() / 2, target.getZ());
+            targetPos = new Vec3(target.getX(), target.getY() + target.getEyeHeight() / 2, target.getZ());
         }
 
         return getRotationFromEyeToPoint(targetPos);

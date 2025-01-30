@@ -4,7 +4,7 @@ import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.commands.*;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.ChatEvent;
-import com.shootforever.nuclear.util.functions.NotifyUtil;
+import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

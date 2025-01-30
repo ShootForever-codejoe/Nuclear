@@ -4,7 +4,7 @@ import com.shootforever.nuclear.command.CommandManager;
 import com.shootforever.nuclear.event.EventManager;
 import com.shootforever.nuclear.listener.ListenerManager;
 import com.shootforever.nuclear.module.ModuleManager;
-import com.shootforever.nuclear.util.functions.ConfigUtil;
+import com.shootforever.nuclear.util.ConfigUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
 

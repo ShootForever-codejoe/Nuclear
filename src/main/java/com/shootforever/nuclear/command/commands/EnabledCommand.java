@@ -3,7 +3,7 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.functions.NotifyUtil;
+import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.functions;
+package com.shootforever.nuclear.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.functions;
+package com.shootforever.nuclear.util;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

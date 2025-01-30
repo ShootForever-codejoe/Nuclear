@@ -2,8 +2,8 @@ package com.shootforever.nuclear.ui.clickgui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.shootforever.nuclear.util.functions.ConfigUtil;
-import com.shootforever.nuclear.util.functions.NotifyUtil;
+import com.shootforever.nuclear.util.ConfigUtil;
+import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;

@@ -3,7 +3,7 @@ package com.shootforever.nuclear.ui.clickgui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.value.Value;
-import com.shootforever.nuclear.util.functions.ColorUtil;
+import com.shootforever.nuclear.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 
 public class Component {

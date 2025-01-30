@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class Team extends Module {
     private final BooleanValue armorColor = new BooleanValue(this, "ArmorColor", true);
@@ -16,7 +17,7 @@ public class Team extends Module {
         super("Team", Category.MISC);
     }
 
-    public boolean isSameTeam(LivingEntity entity) {
+    public boolean isSameTeam(@NotNull LivingEntity entity) {
         if (mc.player == null || !isEnabled()) return false;
 
         if (armorColor.getValue() && entity instanceof Player entityPlayer) {
@@ -30,7 +31,7 @@ public class Team extends Module {
         return false;
     }
 
-    private int getArmorColor(ItemStack stack) {
+    private int getArmorColor(@NotNull ItemStack stack) {
         return stack.getItem() instanceof DyeableLeatherItem ? ((DyeableLeatherItem)stack.getItem()).getColor(stack) : -1;
     }
 }

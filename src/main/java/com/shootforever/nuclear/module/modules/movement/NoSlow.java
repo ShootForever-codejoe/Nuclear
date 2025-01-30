@@ -40,7 +40,7 @@ public class NoSlow extends Module {
     }
 
     @Override
-    public void onEnable() {
+    protected void onEnable() {
         if (mc.player != null) {
             old = mc.player.input;
             if (!(mc.player.input instanceof KeyboardInput)) {
@@ -50,7 +50,7 @@ public class NoSlow extends Module {
     }
 
     @Override
-    public void onDisable() {
+    protected void onDisable() {
         if (mc.player != null) {
             mc.player.input = old;
         }
@@ -70,11 +70,24 @@ public class NoSlow extends Module {
     }
 
     @EventTarget
-    public void onMotion(GameTickEvent event) {
-        if (mc.player != null && event.getSide() != Event.Side.POST) {
+    public void onTick(GameTickEvent event) {
+        if (mc.player != null) return;
+
+        if (event.getSide() != Event.Side.POST) {
             if (mc.player.isUsingItem() && isUsable(mc.player.getMainHandItem()) || isUsable(mc.player.getOffhandItem())) {
                 send();
             }
+        }
+
+        if (!(mc.player.input instanceof KeyboardInput)) {
+            old = mc.player.input;
+            mc.player.input = new KeyboardInput(mc.options);
+        }
+
+        if (mc.player.isUsingItem()) {
+            keyboardInputCancelled = !shouldSlow;
+        } else {
+            keyboardInputCancelled = false;
         }
     }
 
@@ -150,21 +163,5 @@ public class NoSlow extends Module {
         }
 
         keyboardInputCancelled = false;
-    }
-
-    @EventTarget
-    public void onSlowDown(GameTickEvent event) {
-        if (mc.player == null) return;
-
-        if (!(mc.player.input instanceof KeyboardInput)) {
-            old = mc.player.input;
-            mc.player.input = new KeyboardInput(mc.options);
-        }
-
-        if (mc.player.isUsingItem()) {
-            keyboardInputCancelled = !shouldSlow;
-        } else {
-            keyboardInputCancelled = false;
-        }
     }
 }

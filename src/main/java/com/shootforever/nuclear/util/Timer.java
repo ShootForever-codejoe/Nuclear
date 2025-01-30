@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.classes;
+package com.shootforever.nuclear.util;
 
 public class Timer {
     public long lastMS = System.currentTimeMillis();

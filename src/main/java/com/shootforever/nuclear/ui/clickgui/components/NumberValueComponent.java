@@ -7,7 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import com.shootforever.nuclear.value.values.NumberValue;
 import com.shootforever.nuclear.ui.clickgui.ModuleRenderer;
-import com.shootforever.nuclear.util.functions.MathUtil;
+import com.shootforever.nuclear.util.MathUtil;
 
 import java.awt.*;
 

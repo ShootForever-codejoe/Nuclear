@@ -2,11 +2,11 @@ package com.shootforever.nuclear.module.modules.combat;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.event.EventTarget;
-import com.shootforever.nuclear.event.events.MotionUpdateEvent;
+import com.shootforever.nuclear.event.events.GameTickEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.functions.ReflectionUtil;
+import com.shootforever.nuclear.util.ReflectionUtil;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
@@ -31,7 +31,7 @@ public class Velocity extends Module {
     }
 
     @EventTarget
-    public void onUpdate(MotionUpdateEvent event) {
+    public void onTick(GameTickEvent event) {
         KillAura killAura = (KillAura) Nuclear.getInstance().getModuleManager().getModule("KillAura");
         if (mc.player == null || mc.getConnection() == null || killAura == null) return;
 

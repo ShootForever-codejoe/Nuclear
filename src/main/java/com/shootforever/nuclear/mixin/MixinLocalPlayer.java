@@ -1,14 +1,11 @@
 package com.shootforever.nuclear.mixin;
 
 import com.shootforever.nuclear.Nuclear;
-import com.shootforever.nuclear.event.Event;
 import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.event.events.MotionUpdateEvent;
-import com.shootforever.nuclear.event.events.PlayerTickEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
@@ -129,23 +126,5 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
         if (event.isCancelled()) {
             ci.cancel();
         }
-    }
-
-    @Inject(method = "tick", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/player/AbstractClientPlayer;tick()V",
-            shift = At.Shift.BEFORE,
-            ordinal = 0))
-    public void preTick(CallbackInfo ci) {
-        PlayerTickEvent event = new PlayerTickEvent(Event.Side.PRE);
-        Nuclear.getInstance().getEventManager().call(event);
-    }
-
-    @Inject(method = "tick", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/client/player/AbstractClientPlayer;tick()V",
-            shift = At.Shift.AFTER,
-            ordinal = 0))
-    public void postTick(CallbackInfo ci) {
-        PlayerTickEvent event = new PlayerTickEvent(Event.Side.POST);
-        Nuclear.getInstance().getEventManager().call(event);
     }
 }

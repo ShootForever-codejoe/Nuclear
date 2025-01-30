@@ -6,8 +6,10 @@ import com.shootforever.nuclear.event.events.KeyPressEvent;
 import com.shootforever.nuclear.module.modules.combat.*;
 import com.shootforever.nuclear.module.modules.misc.*;
 import com.shootforever.nuclear.module.modules.movement.*;
+import com.shootforever.nuclear.module.modules.player.AutoTool;
+import com.shootforever.nuclear.module.modules.player.ChestStealer;
+import com.shootforever.nuclear.module.modules.player.InvCleaner;
 import com.shootforever.nuclear.module.modules.render.*;
-import com.shootforever.nuclear.module.modules.player.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,14 +29,18 @@ public class ModuleManager {
                 new Sprint(),
                 new MoveFix(),
                 new NoSlow(),
+                new Stuck(),
+                new Eagle(),
 
                 // Render
                 new HUD(),
                 new ClickGUI(),
 
                 // Player
-                new Eagle(),
                 //new Scaffold(),
+                new AutoTool(),
+                new ChestStealer(),
+                new InvCleaner(),
 
                 // Misc
                 //new IRC(),

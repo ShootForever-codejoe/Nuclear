@@ -10,7 +10,7 @@ import com.shootforever.nuclear.value.values.ChoiceValue;
 import com.shootforever.nuclear.ui.clickgui.components.BooleanValueComponent;
 import com.shootforever.nuclear.ui.clickgui.components.ChoiceValueComponent;
 import com.shootforever.nuclear.ui.clickgui.components.NumberValueComponent;
-import com.shootforever.nuclear.util.functions.ColorUtil;
+import com.shootforever.nuclear.util.ColorUtil;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
 

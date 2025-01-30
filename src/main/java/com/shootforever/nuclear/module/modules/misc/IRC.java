@@ -18,7 +18,7 @@ import com.shootforever.nuclear.event.events.ChatEvent;
 import com.shootforever.nuclear.event.events.ServerConnectEvent;
 import com.shootforever.nuclear.module.Category;
 import com.shootforever.nuclear.module.Module;
-import com.shootforever.nuclear.util.functions.NotifyUtil;
+import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.Nullable;
 

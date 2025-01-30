@@ -1,4 +1,4 @@
-package com.shootforever.nuclear.util.functions;
+package com.shootforever.nuclear.util;
 
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.module.modules.misc.Team;
