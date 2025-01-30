@@ -34,7 +34,7 @@ public class ModuleManager {
 
                 // Player
                 new Eagle(),
-                new Scaffold(),
+                //new Scaffold(),
 
                 // Misc
                 //new IRC(),

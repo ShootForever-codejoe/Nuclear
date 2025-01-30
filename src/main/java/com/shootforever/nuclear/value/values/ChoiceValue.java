@@ -11,14 +11,13 @@ import java.util.List;
 public class ChoiceValue extends Value<String> {
     private final List<String> choices;
 
-    public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices, @NotNull Hide hide) {
+    public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices, Hide hide) {
         super(module, name, choice, hide);
         this.choices = new ArrayList<>(choices);
     }
 
     public ChoiceValue(@NotNull Module module, @NotNull String name, @NotNull String choice, @NotNull List<@NotNull String> choices) {
-        super(module, name, choice);
-        this.choices = new ArrayList<>(choices);
+        this(module, name, choice, choices, null);
     }
 
     public List<String> getChoices() {

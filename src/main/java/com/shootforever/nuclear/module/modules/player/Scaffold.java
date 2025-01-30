@@ -7,9 +7,4 @@ public class Scaffold extends Module {
     public Scaffold() {
         super("Scaffold", Category.PLAYER);
     }
-
-    @Override
-    protected void onEnable() {
-        setEnabled(false);
-    }
 }

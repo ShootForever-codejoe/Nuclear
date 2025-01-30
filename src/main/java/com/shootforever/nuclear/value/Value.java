@@ -9,20 +9,16 @@ public abstract class Value<T> {
     protected @NotNull T value;
     protected final @NotNull Hide hide;
 
-    protected Value(@NotNull Module module, @NotNull String name, @NotNull T value, @NotNull Hide hide) {
+    protected Value(@NotNull Module module, @NotNull String name, @NotNull T value, Hide hide) {
         this.module = module;
         module.registerValue(this);
         this.name = name;
         this.value = value;
-        this.hide = hide;
+        this.hide = hide == null ? (() -> false) : hide;
     }
 
     protected Value(@NotNull Module module, @NotNull String name, @NotNull T value) {
-        this.module = module;
-        module.registerValue(this);
-        this.name = name;
-        this.value = value;
-        this.hide = () -> false;
+        this(module, name, value, null);
     }
 
     public @NotNull Module getModule() {

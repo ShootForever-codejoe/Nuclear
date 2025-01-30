@@ -7,11 +7,6 @@ public class IRC extends Module {
     public IRC() {
         super("IRC", Category.MISC);
     }
-
-    @Override
-    protected void onEnable() {
-        setEnabled(false);
-    }
 }
 
 /*

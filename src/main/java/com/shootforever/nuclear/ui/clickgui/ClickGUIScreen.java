@@ -2,12 +2,16 @@ package com.shootforever.nuclear.ui.clickgui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.shootforever.nuclear.util.functions.ConfigUtil;
+import com.shootforever.nuclear.util.functions.NotifyUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import com.shootforever.nuclear.module.Category;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,6 +71,12 @@ public class ClickGUIScreen extends Screen {
 
         for (Frame frame : this.frames) {
             frame.onClose();
+        }
+
+        try {
+            ConfigUtil.saveConfig();
+        } catch (IOException e) {
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动保存配置失败");
         }
     }
 

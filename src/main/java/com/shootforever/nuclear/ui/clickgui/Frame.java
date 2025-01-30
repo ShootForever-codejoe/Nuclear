@@ -28,7 +28,6 @@ public class Frame {
     private final List<ModuleRenderer> renderers;
     private float openProgress;
     private long lastToggleTime;
-    private final ResourceLocation categoryIcon;
 
     public Frame(int x, int y, int width, int height, @NotNull Category category) {
         this.x = x;
@@ -40,7 +39,6 @@ public class Frame {
         this.extended = false;
         this.openProgress = 0.0F;
         this.lastToggleTime = 0L;
-        this.categoryIcon = new ResourceLocation("heypixel", "sb/textures/gui/" + category.name().toLowerCase() + "_icon.png");
         this.renderers = new ArrayList<>();
         int offset = height;
 
@@ -55,9 +53,6 @@ public class Frame {
     public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
         this.updateAnimation();
         ClickGUIScreen.drawRoundedRect(stack, this.x, this.y, this.width, this.height, 0, ColorUtil.color(0, 0, 0, 150));
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, this.categoryIcon);
-        Gui.blit(stack, this.x + 5, this.y + 5, 0.0F, 0.0F, 16, 16, 16, 16);
         mc.font.drawShadow(stack, this.category.name(), (float) (this.x + 25), (float) this.y + ((float) this.height / 2.0F - 9.0F / 2.0F), -1);
         mc.font.drawShadow(stack, this.extended ? "-" : "+", (float) (this.x + this.width - 14), (float) this.y + ((float) this.height / 2.0F - 9.0F / 2.0F), -1);
         long currentTime = System.currentTimeMillis();

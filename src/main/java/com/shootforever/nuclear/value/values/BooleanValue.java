@@ -6,11 +6,11 @@ import com.shootforever.nuclear.value.Value;
 import org.jetbrains.annotations.NotNull;
 
 public class BooleanValue extends Value<Boolean> {
-    public BooleanValue(@NotNull Module module, @NotNull String name, boolean value, @NotNull Hide hide) {
+    public BooleanValue(@NotNull Module module, @NotNull String name, boolean value, Hide hide) {
         super(module, name, value, hide);
     }
 
     public BooleanValue(@NotNull Module module, @NotNull String name, boolean value) {
-        super(module, name, value);
+        this(module, name, value, null);
     }
 }
