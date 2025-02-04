@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommandManager {
-    private final List<@NotNull Command> commands = new ArrayList<>();
+    private final List<Command> commands = new ArrayList<>();
 
     public CommandManager() {
         Nuclear.getInstance().getEventManager().register(this);

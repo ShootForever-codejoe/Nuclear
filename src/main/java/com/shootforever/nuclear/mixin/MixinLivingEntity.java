@@ -17,6 +17,7 @@ public abstract class MixinLivingEntity extends Entity {
     @Shadow public abstract double getJumpBoostPower();
 
     public MixinLivingEntity() {
+        //noinspection DataFlowIssue
         super(null, null);
     }
 
@@ -39,10 +40,12 @@ public abstract class MixinLivingEntity extends Entity {
         this.setDeltaMovement(vec3.x, d0, vec3.z);
         if (this.isSprinting()) {
             float f = angle * ((float)Math.PI / 180F);
-            this.setDeltaMovement(this.getDeltaMovement().add((double)(-Mth.sin(f) * 0.2F), 0.0D, (double)(Mth.cos(f) * 0.2F)));
+            this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f) * 0.2F, 0.0D, Mth.cos(f) * 0.2F));
         }
 
         this.hasImpulse = true;
-        net.minecraftforge.common.ForgeHooks.onLivingJump((LivingEntity) Nuclear.mc.level.getEntity(getId()));
+        if (Nuclear.mc.level != null) {
+            net.minecraftforge.common.ForgeHooks.onLivingJump((LivingEntity) Nuclear.mc.level.getEntity(getId()));
+        }
     }
 }

@@ -21,6 +21,7 @@ public class Nuclear {
     public static final Path DATA_DIR = Paths.get("Nuclear");
 
     private static Nuclear instance;
+
     private final EventManager eventManager;
     private final ModuleManager moduleManager;
     private final CommandManager commandManager;
@@ -55,11 +56,11 @@ public class Nuclear {
         return moduleManager;
     }
 
-    public CommandManager getCommandManager() {
-        return commandManager;
-    }
-
     public ListenerManager getListenerManager() {
         return listenerManager;
+    }
+
+    public CommandManager getCommandManager() {
+        return commandManager;
     }
 }

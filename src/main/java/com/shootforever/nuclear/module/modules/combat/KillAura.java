@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KillAura extends Module {
-    private final NumberValue cps = new NumberValue(this, "CPS", 11, 1, 20, 1);
-    private final NumberValue range = new NumberValue(this, "Range", 2.65f, 1, 6.0f, 0.01f);
+    private final NumberValue cps = new NumberValue(this, "CPS", 10, 1, 30, 1);
+    private final NumberValue range = new NumberValue(this, "Range", 3.1f, 1, 6f, 0.01f);
     private final BooleanValue players = new BooleanValue(this, "Players", true);
     private final BooleanValue mobs = new BooleanValue(this, "Mobs", false);
     private final BooleanValue animals = new BooleanValue(this, "Animals", false);
@@ -51,7 +51,7 @@ public class KillAura extends Module {
 
     @EventTarget
     public void onTick(GameTickEvent event) {
-        if (mc.level == null || mc.player == null || mc.getConnection() == null) return;
+        if (event.getSide() == Event.Side.POST || mc.level == null || mc.player == null || mc.getConnection() == null) return;
 
         List<LivingEntity> targets = new ArrayList<>();
 
@@ -79,7 +79,7 @@ public class KillAura extends Module {
             }
         }
 
-        if (event.getSide() == Event.Side.PRE && target != null && timer.delay(800 / cps.getValue().intValue())) {
+        if (target != null && timer.delay(800 / cps.getValue().intValue())) {
             mc.getConnection().send(ServerboundInteractPacket.createAttackPacket(target, mc.player.isShiftKeyDown()));
             mc.player.swing(InteractionHand.MAIN_HAND);
             timer.reset();

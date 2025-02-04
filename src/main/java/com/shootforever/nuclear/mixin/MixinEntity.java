@@ -14,6 +14,7 @@ public abstract class MixinEntity {
 
     @Shadow public abstract Vec3 getDeltaMovement();
 
+    @SuppressWarnings("SameReturnValue")
     @Shadow
     private static Vec3 getInputVector(Vec3 p_20016_, float p_20017_, float p_20018_) {
         return null;

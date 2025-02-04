@@ -5,13 +5,13 @@ import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class AttackEvent extends CancellableEvent {
-    private final @NotNull Entity entity;
+    private final Entity entity;
 
     public AttackEvent(@NotNull Entity entity) {
         this.entity = entity;
     }
 
-    public @NotNull Entity getEntity() {
+    public Entity getEntity() {
         return entity;
     }
 }

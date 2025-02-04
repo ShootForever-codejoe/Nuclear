@@ -1,5 +1,6 @@
 package com.shootforever.nuclear.module.modules.movement;
 
+import com.shootforever.nuclear.event.Event;
 import com.shootforever.nuclear.event.EventTarget;
 import com.shootforever.nuclear.event.events.GameTickEvent;
 import com.shootforever.nuclear.event.events.PacketEvent;
@@ -16,7 +17,7 @@ public class Stuck extends Module {
 
     @EventTarget
     public void onTick(GameTickEvent event) {
-        if (mc.player == null) return;
+        if (event.getSide() == Event.Side.POST || mc.player == null) return;
 
         Vec3 deltaMovement = mc.player.getDeltaMovement();
         mc.player.setDeltaMovement(deltaMovement.x * 0, deltaMovement.y * 0, deltaMovement.z * 0);

@@ -4,10 +4,10 @@ import com.shootforever.nuclear.module.Module;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Value<T> {
-    protected final @NotNull Module module;
-    protected final @NotNull String name;
-    protected @NotNull T value;
-    protected final @NotNull Hide hide;
+    protected final Module module;
+    protected final String name;
+    protected T value;
+    protected final Hide hide;
 
     protected Value(@NotNull Module module, @NotNull String name, @NotNull T value, Hide hide) {
         this.module = module;
@@ -17,19 +17,15 @@ public abstract class Value<T> {
         this.hide = hide == null ? (() -> false) : hide;
     }
 
-    protected Value(@NotNull Module module, @NotNull String name, @NotNull T value) {
-        this(module, name, value, null);
-    }
-
-    public @NotNull Module getModule() {
+    public Module getModule() {
         return module;
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
-    public @NotNull T getValue() {
+    public T getValue() {
         return value;
     }
 
@@ -37,7 +33,7 @@ public abstract class Value<T> {
         this.value = value;
     }
 
-    public @NotNull Hide getHide() {
+    public Hide getHide() {
         return hide;
     }
 }

@@ -3,10 +3,13 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.util.ConfigUtil;
 import com.shootforever.nuclear.util.KeyboardUtil;
 import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class BindCommand extends Command {
     public BindCommand() {
@@ -29,7 +32,11 @@ public class BindCommand extends Command {
         Integer key = KeyboardUtil.getKeyNumber(args[1]);
         module.setKey(key);
         NotifyUtil.notifyAsMessage("模块" + module.getName() + "成功绑定为" + KeyboardUtil.getKeyName(key) + "键");
+
+        try {
+            ConfigUtil.saveConfig();
+        } catch (IOException e) {
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动保存配置失败");
+        }
     }
-
-
 }

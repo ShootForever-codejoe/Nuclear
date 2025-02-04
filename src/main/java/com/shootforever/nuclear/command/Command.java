@@ -3,13 +3,13 @@ package com.shootforever.nuclear.command;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class Command {
-    protected final @NotNull String name;
+    protected final String name;
 
     protected Command(@NotNull String name) {
         this.name = name;
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 

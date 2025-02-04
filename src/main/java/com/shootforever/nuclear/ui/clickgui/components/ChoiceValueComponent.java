@@ -6,6 +6,7 @@ import com.shootforever.nuclear.ui.clickgui.Component;
 import com.shootforever.nuclear.value.values.ChoiceValue;
 import com.shootforever.nuclear.ui.clickgui.ModuleRenderer;
 import net.minecraft.client.Minecraft;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -19,22 +20,26 @@ public class ChoiceValueComponent extends Component {
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta, int x, int y, int width, int height) {
+    public void render(@NotNull PoseStack stack, int mouseX, int mouseY, float delta, int x, int y, int width, int height) {
         super.render(stack, mouseX, mouseY, delta, x, y, width, height);
-        String text = this.choiceValue.getName() + ": " + this.choiceValue.getValue();
+        String text = choiceValue.getName() + ": " + choiceValue.getValue();
         mc.font.drawShadow(stack, text, (float) (x + 5), (float) (y + (height / 2 - 9 / 2)), -1);
     }
 
     @Override
     public void mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        if (this.isHovered(
-                mouseX, mouseY, this.parent.parent.x, this.parent.parent.y + this.parent.offset + this.offset, this.parent.parent.width, this.parent.parent.height
-        )
-                && mouseButton == 0) {
-            List<String> modes = this.choiceValue.getChoices();
-            int currentIndex = modes.indexOf(this.choiceValue.getValue());
+        if (isHovered(
+                mouseX,
+                mouseY,
+                parent.getParent().getX(),
+                parent.getParent().getY() + parent.getOffset() + offset,
+                parent.getParent().getWidth(),
+                parent.getParent().getHeight()
+        ) && mouseButton == 0) {
+            List<String> modes = choiceValue.getChoices();
+            int currentIndex = modes.indexOf(choiceValue.getValue());
             int nextIndex = (currentIndex + 1) % modes.size();
-            this.choiceValue.setValue(modes.get(nextIndex));
+            choiceValue.setValue(modes.get(nextIndex));
         }
     }
 

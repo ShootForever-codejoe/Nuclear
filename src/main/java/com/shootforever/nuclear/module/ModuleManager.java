@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleManager {
-    private final List<@NotNull Module> modules = new ArrayList<>();
+    private final List<Module> modules = new ArrayList<>();
 
     public ModuleManager() {
         registerModules(
@@ -26,21 +26,23 @@ public class ModuleManager {
                 new Velocity(),
 
                 // Movement
-                new Sprint(),
+                new Eagle(),
                 new MoveFix(),
                 new NoSlow(),
+                new Sprint(),
                 new Stuck(),
-                new Eagle(),
 
                 // Render
                 new HUD(),
+                new ESP(),
+                new FullBright(),
                 new ClickGUI(),
 
                 // Player
-                //new Scaffold(),
                 new AutoTool(),
                 new ChestStealer(),
                 new InvCleaner(),
+                //new Scaffold(),
 
                 // Misc
                 //new IRC(),

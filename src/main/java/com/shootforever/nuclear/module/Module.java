@@ -4,29 +4,28 @@ import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.value.Value;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Module {
     protected final Minecraft mc = Nuclear.mc;
-    protected final @NotNull String name;
-    protected final @NotNull Category category;
+    protected final String name;
+    protected final Category category;
     private int key = 0;
     private boolean enabled;
-    private final List<@NotNull Value<?>> values = new ArrayList<>();
+    private final List<Value<?>> values = new ArrayList<>();
 
     protected Module(@NotNull String name, @NotNull Category category) {
         this.name = name;
         this.category = category;
     }
 
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
-    public @NotNull Category getCategory() {
+    public Category getCategory() {
         return category;
     }
 
@@ -61,7 +60,7 @@ public abstract class Module {
         return new ArrayList<>(values);
     }
 
-    public @Nullable Value<?> getValue(@NotNull String name) {
+    public Value<?> getValue(@NotNull String name) {
         for (Value<?> value : values) {
             if (value.getName().equalsIgnoreCase(name)) {
                 return value;

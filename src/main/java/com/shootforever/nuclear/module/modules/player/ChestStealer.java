@@ -45,7 +45,7 @@ public class ChestStealer extends Module {
 
                 for (int i = 0; i < container.getContainer().getContainerSize(); i++) {
                     if (!container.getContainer().getItem(i).isEmpty() && this.lastSteal > 1 && (this.isItemUseful(container, i) || this.trash.getValue())) {
-                        this.nextClick = (long) Math.round(
+                        this.nextClick = Math.round(
                                 MathUtil.getRandomFloat((float) this.delay.getValue().intValue(), (float) (this.delay.getValue().intValue() + 5))
                         );
                         mc.gameMode.handleInventoryMouseClick(container.containerId, i, 0, ClickType.QUICK_MOVE, mc.player);

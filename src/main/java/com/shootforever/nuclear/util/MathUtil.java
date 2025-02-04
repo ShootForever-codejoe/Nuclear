@@ -17,6 +17,10 @@ public final class MathUtil {
     public static final float TO_RADIANS = (float) (Math.PI / 180.0);
     public static final float TO_DEGREES = 180.0F / (float) Math.PI;
 
+    private MathUtil() {
+        throw new AssertionError();
+    }
+
     public static boolean approximatelyEquals(float a, float b) {
         return Math.abs(b - a) < 1.0E-5F;
     }
@@ -26,13 +30,8 @@ public final class MathUtil {
     }
 
     public static double roundToPlace(double value, int place) {
-        if (place < 0) {
-            return value;
-        } else {
-            BigDecimal bd = new BigDecimal(value);
-            bd = bd.setScale(place, RoundingMode.HALF_UP);
-            return bd.doubleValue();
-        }
+        if (place < 0) return value;
+        return new BigDecimal(value).setScale(place, RoundingMode.HALF_UP).doubleValue();
     }
 
     public static float clamp2(float num, float min, float max) {
@@ -63,11 +62,11 @@ public final class MathUtil {
     }
 
     public static float interpolateFloat(float oldValue, float newValue, double interpolationValue) {
-        return interpolate((double) oldValue, (double) newValue, (double) ((float) interpolationValue)).floatValue();
+        return interpolate(oldValue, newValue, (float) interpolationValue).floatValue();
     }
 
     public static int interpolateInt(int oldValue, int newValue, double interpolationValue) {
-        return interpolate((double) oldValue, (double) newValue, (double) ((float) interpolationValue)).intValue();
+        return interpolate(oldValue, newValue, (float) interpolationValue).intValue();
     }
 
     public static float calculateGaussianValue(float x, float sigma) {
@@ -107,8 +106,7 @@ public final class MathUtil {
     }
 
     public static float getRandomFloat(float max, float min) {
-        SecureRandom random = new SecureRandom();
-        return random.nextFloat() * (max - min) + min;
+        return new SecureRandom().nextFloat() * (max - min) + min;
     }
 
     public static int getNumberOfDecimalPlace(double value) {
@@ -118,9 +116,5 @@ public final class MathUtil {
 
     public static boolean equals(float a, float b) {
         return (double) Math.abs(a - b) < 1.0E-4;
-    }
-
-    private MathUtil() {
-        throw new AssertionError();
     }
 }

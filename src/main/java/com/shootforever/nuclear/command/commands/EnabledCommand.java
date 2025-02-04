@@ -3,9 +3,12 @@ package com.shootforever.nuclear.command.commands;
 import com.shootforever.nuclear.Nuclear;
 import com.shootforever.nuclear.command.Command;
 import com.shootforever.nuclear.module.Module;
+import com.shootforever.nuclear.util.ConfigUtil;
 import com.shootforever.nuclear.util.NotifyUtil;
 import net.minecraft.ChatFormatting;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 public class EnabledCommand extends Command {
     public EnabledCommand() {
@@ -32,9 +35,16 @@ public class EnabledCommand extends Command {
                 module.setEnabled(false);
             } else {
                 NotifyUtil.notifyAsMessage(ChatFormatting.RED + "第二个参数enabled只能为on或off");
+                return;
             }
         } else {
             module.setEnabled(!module.isEnabled());
+        }
+
+        try {
+            ConfigUtil.saveConfig();
+        } catch (IOException e) {
+            NotifyUtil.notifyAsMessage(ChatFormatting.RED + "自动保存配置失败");
         }
     }
 }

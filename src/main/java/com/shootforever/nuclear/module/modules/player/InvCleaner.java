@@ -41,6 +41,7 @@ public class InvCleaner extends Module {
     public final NumberValue slotBow = new NumberValue(this, "BowSlot", 6, 1, 9, 1);
     public final NumberValue slotBlock = new NumberValue(this, "BlockSlot", 7, 1, 9, 1);
     public final NumberValue slotPearl = new NumberValue(this, "PearlSlot", 8, 1, 9, 1);
+
     private final int[] bestArmorPieces = new int[6];
     private final List<Integer> trash = new ArrayList<>();
     private final int[] bestToolSlots = new int[2];
@@ -93,9 +94,8 @@ public class InvCleaner extends Module {
             }
 
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     @EventTarget
@@ -127,8 +127,8 @@ public class InvCleaner extends Module {
                                 Item armorSlot = stack.getItem();
                                 if (armorSlot instanceof ArmorItem armor) {
                                     if (InventoryUtil.isBestArmor(handler, stack)) {
-                                        EquipmentSlot armorSlotx = armor.getSlot();
-                                        int index = armorSlotx.ordinal();
+                                        EquipmentSlot armorSlotX = armor.getSlot();
+                                        int index = armorSlotX.ordinal();
                                         if (index >= 1 && index < this.bestArmorPieces.length + 2) {
                                             int pieceSlot = this.bestArmorPieces[index];
                                             if (pieceSlot == -1 || slot != pieceSlot) {
@@ -278,10 +278,10 @@ public class InvCleaner extends Module {
                     int mostBlocksSlot = this.getMostBlocks();
                     if (mostBlocksSlot != -1 && mostBlocksSlot != goodBlockSlot) {
                         Slot dss = mc.player.containerMenu.getSlot(goodBlockSlot);
-                        ItemStack dsis = dss.getItem();
-                        if (dsis.isEmpty()
-                                || !(dsis.getItem() instanceof BlockItem)
-                                || dsis.getCount() < mc.player.containerMenu.getSlot(mostBlocksSlot).getItem().getCount()) {
+                        ItemStack dssItem = dss.getItem();
+                        if (dssItem.isEmpty()
+                                || !(dssItem.getItem() instanceof BlockItem)
+                                || dssItem.getCount() < mc.player.containerMenu.getSlot(mostBlocksSlot).getItem().getCount()) {
                             this.putItemInSlot(goodBlockSlot, mostBlocksSlot);
                         }
                     }

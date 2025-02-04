@@ -20,44 +20,44 @@ import java.util.List;
 
 public class ModuleRenderer {
     private final Minecraft mc = Nuclear.mc;
-    public Module module;
-    public Frame parent;
-    public int offset;
-    public List<Component> components;
-    public boolean extended;
+    private final Module module;
+    private final Frame parent;
+    private int offset;
+    private final List<Component> components;
+    private boolean extended;
     private float openProgress;
     private long lastToggleTime;
 
-    public ModuleRenderer(@NotNull Module module, Frame parent, int offset) {
+    public ModuleRenderer(@NotNull Module module, @NotNull Frame parent, int offset) {
         this.module = module;
         this.parent = parent;
         this.offset = offset;
-        this.extended = false;
-        this.openProgress = 0.0F;
-        this.lastToggleTime = 0L;
-        this.components = new ArrayList<>();
+        extended = false;
+        openProgress = 0.0F;
+        lastToggleTime = 0L;
+        components = new ArrayList<>();
         int valueOffset = 20;
 
         for (Value<?> value : module.getValues()) {
             if (value instanceof BooleanValue booleanValue) {
-                this.components.add(new BooleanValueComponent(booleanValue, this, valueOffset));
+                components.add(new BooleanValueComponent(booleanValue, this, valueOffset));
             } else if (value instanceof ChoiceValue choiceValue) {
-                this.components.add(new ChoiceValueComponent(choiceValue, this, valueOffset));
+                components.add(new ChoiceValueComponent(choiceValue, this, valueOffset));
             } else if (value instanceof NumberValue numberValue) {
-                this.components.add(new NumberValueComponent(numberValue, this, valueOffset));
+                components.add(new NumberValueComponent(numberValue, this, valueOffset));
             }
 
             valueOffset += 20;
         }
     }
 
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta, int x, int y, int width, int height) {
-        this.updateAnimation();
+    public void render(@NotNull PoseStack stack, int mouseX, int mouseY, float delta, int x, int y, int width, int height) {
+        updateAnimation();
         ClickGUIScreen.drawRoundedRect(
-                stack, x, y, width, height, 0, ColorUtil.color(0, 0, 0, this.isHovered(mouseX, mouseY, x, y, width, height) ? 200 : 160)
+                stack, x, y, width, height, 0, ColorUtil.color(0, 0, 0, isHovered(mouseX, mouseY, x, y, width, height) ? 200 : 160)
         );
         int textOffset = 10 - 9 / 2;
-        String moduleName = this.module.getName();
+        String moduleName = module.getName();
         float scaleFactor = 1.0F;
         int moduleNameWidth = mc.font.width(moduleName);
         if (moduleNameWidth > width - 30) {
@@ -67,16 +67,16 @@ public class ModuleRenderer {
         stack.pushPose();
         stack.translate(x + textOffset, y + textOffset, 0.0);
         stack.scale(scaleFactor, scaleFactor, 1.0F);
-        mc.font.drawShadow(stack, moduleName, 0.0F, 0.0F, this.module.isEnabled() ? Color.GREEN.getRGB() : -1);
+        mc.font.drawShadow(stack, moduleName, 0.0F, 0.0F, module.isEnabled() ? Color.GREEN.getRGB() : -1);
         stack.popPose();
-        if (!this.components.isEmpty()) {
-            mc.font.drawShadow(stack, this.extended ? "-" : "+", (float) (x + width - 14), (float) (y + textOffset), -1);
+        if (!components.isEmpty()) {
+            mc.font.drawShadow(stack, extended ? "-" : "+", (float) (x + width - 14), (float) (y + textOffset), -1);
         }
 
-        if (this.openProgress > 0.0F) {
+        if (openProgress > 0.0F) {
             int componentY = y + 20;
 
-            for (Component component : this.components) {
+            for (Component component : components) {
                 if (componentY + 20 > y + height) {
                     break;
                 }
@@ -89,34 +89,34 @@ public class ModuleRenderer {
 
     private void updateAnimation() {
         long currentTime = System.currentTimeMillis();
-        float targetProgress = this.extended ? 1.0F : 0.0F;
-        if (this.openProgress != targetProgress) {
-            float deltaTime = (float) (currentTime - this.lastToggleTime) / 1000.0F;
-            this.openProgress = this.extended ? Math.min(1.0F, this.openProgress + deltaTime) : Math.max(0.0F, this.openProgress - deltaTime);
+        float targetProgress = extended ? 1.0F : 0.0F;
+        if (openProgress != targetProgress) {
+            float deltaTime = (float) (currentTime - lastToggleTime) / 1000.0F;
+            openProgress = extended ? Math.min(1.0F, openProgress + deltaTime) : Math.max(0.0F, openProgress - deltaTime);
         }
     }
 
     public void mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        if (this.isHovered(mouseX, mouseY, this.parent.x, this.parent.y + this.offset, this.parent.width, 20)) {
+        if (isHovered(mouseX, mouseY, parent.getX(), parent.getY() + offset, parent.getWidth(), 20)) {
             if (mouseButton == 0) {
-                this.module.setEnabled(!this.module.isEnabled());
-            } else if (mouseButton == 1 && !this.components.isEmpty()) {
-                this.extended = !this.extended;
-                this.lastToggleTime = System.currentTimeMillis();
-                this.parent.updateButtons();
+                module.setEnabled(!module.isEnabled());
+            } else if (mouseButton == 1 && !components.isEmpty()) {
+                extended = !extended;
+                lastToggleTime = System.currentTimeMillis();
+                parent.updateButtons();
             }
         }
 
-        if (this.extended) {
-            for (Component component : this.components) {
+        if (extended) {
+            for (Component component : components) {
                 component.mouseClicked(mouseX, mouseY, mouseButton);
             }
         }
     }
 
     public void mouseReleased(double mouseX, double mouseY, int mouseButton) {
-        if (this.extended) {
-            for (Component component : this.components) {
+        if (extended) {
+            for (Component component : components) {
                 component.mouseReleased(mouseX, mouseY, mouseButton);
             }
         }
@@ -127,6 +127,26 @@ public class ModuleRenderer {
     }
 
     public int getHeight() {
-        return 20 + (this.extended ? this.components.size() * 20 : 0);
+        return 20 + (extended ? components.size() * 20 : 0);
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public List<Component> getComponents() {
+        return new ArrayList<>(components);
+    }
+
+    public boolean isExtended() {
+        return extended;
+    }
+
+    public Frame getParent() {
+        return parent;
+    }
+
+    public int getOffset() {
+        return offset;
     }
 }

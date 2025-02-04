@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClickGUIScreen extends Screen {
-    public static final ClickGUIScreen INSTANCE = new ClickGUIScreen();
+    private static final ClickGUIScreen instance = new ClickGUIScreen();
+
     private final List<Frame> frames = new ArrayList<>();
 
     protected ClickGUIScreen() {
@@ -24,12 +25,12 @@ public class ClickGUIScreen extends Screen {
         int offset = 20;
 
         for (Category category : Category.values()) {
-            this.frames.add(new Frame(offset, 20, 120, 25, category));
+            frames.add(new Frame(offset, 20, 120, 25, category));
             offset += 140;
         }
     }
 
-    public static void drawRoundedRect(PoseStack poseStack, int x, int y, int width, int height, int cornerRadius, int color) {
+    public static void drawRoundedRect(@NotNull PoseStack poseStack, int x, int y, int width, int height, int cornerRadius, int color) {
         fill(poseStack, x + cornerRadius, y, x + width - cornerRadius, y + height, color);
         fill(poseStack, x, y + cornerRadius, x + cornerRadius, y + height - cornerRadius, color);
         fill(poseStack, x + width - cornerRadius, y + cornerRadius, x + width, y + height - cornerRadius, color);
@@ -39,7 +40,7 @@ public class ClickGUIScreen extends Screen {
         fillCircle(poseStack, x + width - cornerRadius, y + height - cornerRadius, cornerRadius, color);
     }
 
-    private static void fillCircle(PoseStack poseStack, int centerX, int centerY, int radius, int color) {
+    private static void fillCircle(@NotNull PoseStack poseStack, int centerX, int centerY, int radius, int color) {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -56,9 +57,9 @@ public class ClickGUIScreen extends Screen {
     }
 
     public void render(@NotNull PoseStack poseStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(poseStack);
+        renderBackground(poseStack);
 
-        for (Frame frame : this.frames) {
+        for (Frame frame : frames) {
             frame.render(poseStack, mouseX, mouseY, partialTicks);
             frame.updatePosition(mouseX, mouseY);
         }
@@ -69,7 +70,7 @@ public class ClickGUIScreen extends Screen {
     public void onClose() {
         super.onClose();
 
-        for (Frame frame : this.frames) {
+        for (Frame frame : frames) {
             frame.onClose();
         }
 
@@ -81,7 +82,7 @@ public class ClickGUIScreen extends Screen {
     }
 
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        for (Frame frame : this.frames) {
+        for (Frame frame : frames) {
             frame.mouseReleased(mouseX, mouseY, button);
         }
 
@@ -89,14 +90,14 @@ public class ClickGUIScreen extends Screen {
     }
 
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (Frame frame : this.frames) {
+        for (Frame frame : frames) {
             frame.mouseClicked(mouseX, mouseY, button);
         }
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
-    protected void init() {
-        super.init();
+    public static ClickGUIScreen getInstance() {
+        return instance;
     }
 }

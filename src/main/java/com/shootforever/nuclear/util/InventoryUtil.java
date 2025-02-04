@@ -65,7 +65,7 @@ public final class InventoryUtil {
     public static double getCrossBowDamage(@NotNull ItemStack stack) {
         double damage = 0.0;
         if (stack.getItem() instanceof CrossbowItem && stack.hasFoil()) {
-            damage += (double) getLevel(Enchantments.POWER_ARROWS, stack);
+            damage += getLevel(Enchantments.POWER_ARROWS, stack);
         }
 
         return damage;
@@ -74,7 +74,7 @@ public final class InventoryUtil {
     public static double getBowDamage(@NotNull ItemStack stack) {
         double damage = 0.0;
         if (stack.getItem() instanceof BowItem && stack.hasFoil()) {
-            damage += (double) getLevel(Enchantments.POWER_ARROWS, stack);
+            damage += getLevel(Enchantments.POWER_ARROWS, stack);
         }
 
         return damage;
@@ -97,7 +97,7 @@ public final class InventoryUtil {
         for (int i = 9; i < 45; i++) {
             ItemStack stack = handler.getSlot(i).getItem();
             if (!stack.isEmpty() && stack.getItem() instanceof DiggerItem && type == getToolType(stack)) {
-                double efficiency = (double) getToolScore(stack);
+                double efficiency = getToolScore(stack);
                 if (efficiency > (double) getToolScore(bestTool.getItem())) {
                     bestTool = new Tool(i, efficiency, stack);
                 }
@@ -210,7 +210,7 @@ public final class InventoryUtil {
         if (!(stack.getItem() instanceof ArmorItem armor)) {
             return 0.0;
         } else {
-            reduction += (double) armor.getDefense();
+            reduction += armor.getDefense();
             if (stack.hasFoil()) {
                 reduction += (double) getLevel(Enchantments.ALL_DAMAGE_PROTECTION, stack) * 0.25;
             }
@@ -285,7 +285,7 @@ public final class InventoryUtil {
     public enum BlockAction {
         PLACE,
         REPLACE,
-        PLACE_ON;
+        PLACE_ON
     }
 
     private record Tool(int slot, double efficiency, @NotNull ItemStack stack) {

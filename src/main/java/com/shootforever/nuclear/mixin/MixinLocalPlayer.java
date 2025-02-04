@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.resources.sounds.AmbientSoundHandler;
 import net.minecraft.network.protocol.game.ServerboundMovePlayerPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerCommandPacket;
 import net.minecraft.world.phys.Vec3;
@@ -18,8 +17,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
 
 @Mixin(LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
@@ -45,13 +42,12 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
     @Shadow private boolean lastOnGround;
 
-    @Shadow private boolean autoJumpEnabled;
-
     @Shadow @Final protected Minecraft minecraft;
 
-    @Shadow @Final private List<AmbientSoundHandler> ambientSoundHandlers;
+    @Shadow private boolean autoJumpEnabled;
 
     public MixinLocalPlayer() {
+        //noinspection DataFlowIssue
         super(null, null);
     }
 
@@ -73,8 +69,8 @@ public abstract class MixinLocalPlayer extends AbstractClientPlayer {
 
         boolean flag3 = this.isShiftKeyDown();
         if (flag3 != this.wasShiftKeyDown) {
-            ServerboundPlayerCommandPacket.Action serverboundplayercommandpacket$action1 = flag3 ? ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY : ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY;
-            this.connection.send(new ServerboundPlayerCommandPacket(this, serverboundplayercommandpacket$action1));
+            ServerboundPlayerCommandPacket.Action serverBoundPlayerCommandPacket$action1 = flag3 ? ServerboundPlayerCommandPacket.Action.PRESS_SHIFT_KEY : ServerboundPlayerCommandPacket.Action.RELEASE_SHIFT_KEY;
+            this.connection.send(new ServerboundPlayerCommandPacket(this, serverBoundPlayerCommandPacket$action1));
             this.wasShiftKeyDown = flag3;
         }
 
